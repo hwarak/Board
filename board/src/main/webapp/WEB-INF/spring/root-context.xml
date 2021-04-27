@@ -5,10 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-		
+	
 	<!-- config파일 자동 로드 location="classpath:database.properties"  /!-->
 	<context:property-placeholder location="/config/*.properties" />
 	
@@ -23,7 +21,11 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"/>
-		<property name="mapperLocations" value="classpath:*/mappers/**/*_Mapper.xml"/>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mappers/UserMapper.xml</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">

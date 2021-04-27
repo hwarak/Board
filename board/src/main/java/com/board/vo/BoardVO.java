@@ -7,8 +7,8 @@ public class BoardVO {
 
 	private int boardIdx;
 	private int userIdx;
-	private String boardSubject;
 	private String boardTitle;
 	private int boardViews;
 	private int boardComments;
+	private String boardDateTime;
 }
