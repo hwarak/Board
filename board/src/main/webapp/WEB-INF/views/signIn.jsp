@@ -16,26 +16,26 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
 	  function checkIdPwFunc() {
-	
-			var userId = $("#id").val();
-			var userPw = $("#pw").val();
 
-			console.log(userId);
-			console.log(userPw);
-	
+			var data = {};
+			data["userId"] = $("#id").val();
+			data["userPw"] = $("#pw").val();
+
 			$.ajax({
-				type : "get",
-				url : "signIn/checkIdPw?userId=" + userId + "&userPw=" + userPw,
-				async : true,
+				type : "post",
+				url : "signIn/checkIdPw",
+				data : JSON.stringify(data),
+			    dataType: "json",
+			    contentType:"application/json;charset=UTF-8",
+			    async : true,
 				success : function(data) {
-					if (data == 0) {
+					if (data.result == 0) {
 						alert("로그인 실패.");
 						$("#id").empty();
 						$("#pw").empty();
 					} else {
 						alert("로그인 성공");
-						var a = data;
-						location.href="main?userIdx="+data;
+						location.href="main?userIdx="+data.result;
 					}
 				},
 				error : function(){

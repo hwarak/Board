@@ -55,8 +55,6 @@ function goMainFunc(){
 				<ul class="nav justify-content-end">
 					<li class="nav-item"><a class="nav-link" href="javascript:goMainFunc();" 
 						style="color: black;">홈</a></li>
-					<li class="nav-item"><a class="nav-link" href="signIn"
-						style="color: black;">내 정보</a></li>
 					<li id="logout" class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
 						style="color: black;">로그아웃</a></li>
 				</ul>

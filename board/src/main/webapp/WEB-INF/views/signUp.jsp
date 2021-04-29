@@ -14,14 +14,18 @@
 <script>
 	function idCheckFunc() {
 
-		var userId = $("#id").val();
+		var data = {};
+		data["userId"] = $("#id").val();
 
 		$.ajax({
-			type : "get",
-			url : "signUp/idCheck?userId=" + userId,
-			async : true,
+			type : "post",
+			url : "signUp/idCheck",
+			data : JSON.stringify(data),
+		    dataType: "json",
+		    contentType:"application/json;charset=UTF-8",
+		    async : true,
 			success : function(data) {
-				userCheckMessage(data);
+				userCheckMessage(data.result);
 			},
 			error : function(){
                 alert("통신실패");
@@ -31,14 +35,19 @@
 
 	function nickCheckFunc() {
 
-		var userNickname = $("#nickname").val();
+
+		var data = {};
+		data["userNickname"] = $("#nickname").val();
 
 		$.ajax({
-			type : "get",
-			url : "signUp/nickCheck?userNickname=" + userNickname,
-			async : true,
+			type : "post",
+			url : "signUp/nickCheck",
+			data : JSON.stringify(data),
+		    dataType: "json",
+		    contentType:"application/json;charset=UTF-8",
+		    async : true,
 			success : function(data) {
-				userCheckMessage(data);
+				userCheckMessage(data.result);
 			},
 			error : function(){
                 alert("통신실패");

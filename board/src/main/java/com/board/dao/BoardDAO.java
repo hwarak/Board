@@ -23,4 +23,10 @@ public interface BoardDAO {
 	
 	// 댓글수 -1
 	public void updateCommentsMinus(int boardIdx);
+	
+	// 게시물 삭제
+	public void deleteBoard(int boardIdx);
+	
+	// 게시물 수정
+	public void updateBoard(String boardSubject, String boardTitle, String boardContents, int boardIdx);
 }

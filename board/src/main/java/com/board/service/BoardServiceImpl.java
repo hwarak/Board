@@ -36,24 +36,35 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void updateViews(int boardIdx) {
 		dao.updateViews(boardIdx);
-		
+
 	}
 
-	// 조회수 +1
+	// 댓글수 +1
 	@Override
 	public void updateCommentsPlus(int boardIdx) {
 		dao.updateCommentsPlus(boardIdx);
-		
+
 	}
 
-	// 조회수 -1
+	// 댓글수 -1
 	@Override
 	public void updateCommentsMinus(int boardIdx) {
 		dao.updateCommentsMinus(boardIdx);
-		
+
 	}
-	
-	
-	
+
+	// 게시물 삭제
+	@Override
+	public void deleteBoard(int boardIdx) {
+		dao.deleteBoard(boardIdx);
+
+	}
+
+	// 게시물 수정
+	@Override
+	public void updateBoard(String boardSubject, String boardTitle, String boardContents, int boardIdx) {
+		dao.updateBoard(boardSubject, boardTitle, boardContents, boardIdx);
+
+	}
 
 }

@@ -15,6 +15,38 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+	function deleteBoardFunc(){
+
+		var data = {};
+		data["boardIdx"] = ${boardInfo.boardIdx};
+
+		$.ajax({
+			type : "delete",
+			url : "board",
+			data : JSON.stringify(data),
+		    dataType: "json",
+		    contentType:"application/json;charset=UTF-8",
+			async : false,
+			success : function(data) {
+				
+				if (data.result == "ok") {
+					alert("삭제 완료.");
+					location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
+				}
+
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+	}
+	
+		
+	
+</script>
 </head>
 <body class="container" style="width: 50%;" >
 
@@ -33,10 +65,20 @@
 			
 			<!-- 글 수정/삭제/신고 -->
 			<div class="col-sm-6">
-				<div style="float: right;">
-					<button type="button" class="btn btn-dark">수정</button>
-					<button type="button" class="btn btn-dark">삭제</button>
-				</div>
+				<%	if (session.getAttribute("userIdx") == request.getAttribute("userIdx")) { %>
+				<!-- 수정/ 삭제 -->
+					<div style="float: right;">
+						<button type="button" class="btn btn-dark">수정</button>
+						<button type="button" class="btn btn-dark" onclick="deleteBoardFunc();">삭제</button>
+					</div>
+				<% } else { %>
+				<!-- 신고하기-->
+					<div style="float: right;">
+						<button type="button" class="btn btn-dark">신고하기</button>
+					</div>
+				<% } %>
+			
+				
 			</div>
 		</div>
 	</div>

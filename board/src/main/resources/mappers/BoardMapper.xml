@@ -51,5 +51,15 @@
 		update board set board_views= board_comments-1 where board_idx=#{boardIdx}
 	</update>
 	
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard">
+		delete from board where board_idx=#{boardIdx}
+	</delete>
+	
+	<!-- 게시물 수정 -->
+	<update id="updateBoard">
+		update board set board_subject=#{boardSubject} and board_title=#{boardTitle} and board_contents=#{boardContents} where board_idx=#{boardIdx}
+	</update>
+	
 
 </mapper>

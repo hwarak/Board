@@ -36,32 +36,48 @@ public class BoardDAOImpl implements BoardDAO {
 	// 한개의 게시물 가져오기
 	@Override
 	public BoardVO selectOneInfo(int boardIdx) {
-		BoardVO bavo = sqlSession.selectOne("com.board.mappers.Boardmapper.selectOneInfo",boardIdx);
+		BoardVO bavo = sqlSession.selectOne("com.board.mappers.Boardmapper.selectOneInfo", boardIdx);
 		return bavo;
 	}
 
 	// 조회수 +1
 	@Override
 	public void updateViews(int boardIdx) {
-		sqlSession.update("com.board.mappers.Boardmapper.updateViews",boardIdx);
-		
+		sqlSession.update("com.board.mappers.Boardmapper.updateViews", boardIdx);
+
 	}
 
-	// 조회수 +1
+	// 댓글수 +1
 	@Override
 	public void updateCommentsPlus(int boardIdx) {
-		sqlSession.update("com.board.mappers.Boardmapper.updateCommentsPlus",boardIdx);
-		
+		sqlSession.update("com.board.mappers.Boardmapper.updateCommentsPlus", boardIdx);
+
 	}
 
-	// 조회수 -1
+	// 댓글수 -1
 	@Override
 	public void updateCommentsMinus(int boardIdx) {
-		sqlSession.update("com.board.mappers.Boardmapper.updateCommentsMinus",boardIdx);
-		
-	}
-	
-	
+		sqlSession.update("com.board.mappers.Boardmapper.updateCommentsMinus", boardIdx);
 
-	
+	}
+
+	// 게시물 삭제
+	@Override
+	public void deleteBoard(int boardIdx) {
+		sqlSession.delete("com.board.mappers.Boardmapper.deleteBoard", boardIdx);
+
+	}
+
+	// 게시물 수정
+	@Override
+	public void updateBoard(String boardSubject, String boardTitle, String boardContents, int boardIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardSubject", boardSubject);
+		map.put("boardTitle", boardTitle);
+		map.put("boardContents", boardContents);
+		map.put("boardIdx", boardIdx);
+		sqlSession.update("com.board.mappers.Boardmapper.updateBoard", map);
+
+	}
+
 }
