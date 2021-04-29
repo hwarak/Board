@@ -1,2 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mappers.Boardmapper">
+	
+	<!-- 게시물 등록 -->
+	<insert id="insertBoard">
+		insert board(user_idx,board_subject,board_title,board_contents) value(#{userIdx},#{boardSubject},#{boardTitle},#{boardContents})
+	</insert>
+	
+	<sql id="selectBoardInfo">
+		select
+		board.board_idx as boardIdx,
+		board.board_subject as boardSubject,
+		board.board_title as boardTitle,
+		board.board_contents as boardContents,
+		board.board_date as boardDate,
+		board.board_views as boardViews,
+		board.board_comments as boardComments,
+		user.user_idx as userIdx,
+		user.user_nickname as userNickname 
+		from board 
+		left join user on board.user_idx = user.user_idx
+    </sql>
+	
+	<!-- 게시물 리스트 가져오기 -->
+	<select id="selectAllBoard" resultType="com.board.vo.BoardVO">
+ 	 	<include refid="selectBoardInfo"></include>
+		order by board_date desc  
+	</select>
+	
+	<!-- 게시물 정보 가져오기 -->
+	<select id="selectOneInfo" resultType="com.board.vo.BoardVO">
+		<include refid="selectBoardInfo"></include> 
+		where board_idx = #{boardIdx}
+		order by board_date desc 
+	</select>
+	
+	<!-- 조회수 +1 -->
+	<update id="updateViews">
+		update board set board_views= board_views+1 where board_idx=#{boardIdx}
+	</update>
+	
+	<!-- 댓글수 +1 -->
+	<update id="updateCommentsPlus">
+		update board set board_comments= board_comments+1 where board_idx=#{boardIdx}
+	</update>
+	
+	<!-- 댓글수 -1 -->
+	<update id="updateCommentsMinus">
+		update board set board_views= board_comments-1 where board_idx=#{boardIdx}
+	</update>
+	
+
+</mapper>

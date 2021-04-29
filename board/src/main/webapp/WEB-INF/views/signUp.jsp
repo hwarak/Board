@@ -22,7 +22,10 @@
 			async : true,
 			success : function(data) {
 				userCheckMessage(data);
-			}
+			},
+			error : function(){
+                alert("통신실패");
+            }
 		});
 	}
 
@@ -36,7 +39,10 @@
 			async : true,
 			success : function(data) {
 				userCheckMessage(data);
-			}
+			},
+			error : function(){
+                alert("통신실패");
+            }
 		});
 	}
 
@@ -68,7 +74,7 @@
 <div class="container" style="height: 40px;"></div>
 
 <div class="container">
-  <form action="signUp" method="post" name="userInfo">
+  <form action="signUp" method="post">
   
     <div class="form-group">
 	    <div class="row">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,16 @@ $(document).ready(function(e){
 		   alert("로그아웃되었습니다");
 	   });
 	});
+
 </script>
+
+<script type="text/javascript">
+
+function goMainFunc(){
+	location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
+}
+</script>
+
 </head>
 <body>
 
@@ -33,6 +43,8 @@ $(document).ready(function(e){
 			<%	if (session.getAttribute("userIdx") == null) { %>
 			<!-- 로그인/회원가입 버튼 -->
 				<ul class="nav justify-content-end">
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
+						style="color: black;">홈</a></li>
 					<li class="nav-item"><a class="nav-link" href="signIn"
 						style="color: black;">로그인</a></li>
 					<li class="nav-item"><a class="nav-link" href="signUp"
@@ -41,13 +53,17 @@ $(document).ready(function(e){
 			<% } else { %>
 			<!-- 내 정보 /로그아웃 버튼-->
 				<ul class="nav justify-content-end">
-					<li class="nav-item"><a class="nav-link" href="signIn" style="color: black;">내 정보</a></li>
-					<li id="logout" class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/" style="color: black;">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link" href="javascript:goMainFunc();" 
+						style="color: black;">홈</a></li>
+					<li class="nav-item"><a class="nav-link" href="signIn"
+						style="color: black;">내 정보</a></li>
+					<li id="logout" class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
+						style="color: black;">로그아웃</a></li>
 				</ul>
 			<% } %>
 	</div>
 	
-	<div class="container" style="height: 60px;"></div>
+	<div class="container" style="height: 40px;"></div>
 
 	<!-- 검색 /인기순 /최신순 -->
 	<div class="container" style="height: 50px;">
@@ -76,8 +92,6 @@ $(document).ready(function(e){
 			    </div>
 			</div>
 		</div>
-		
-		
 	</div>
 
 	<!-- 표 -->
@@ -93,81 +107,32 @@ $(document).ready(function(e){
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>3</td>
-					<td>aaaa</td>
-					<td>john</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>bbb</td>
-					<td>mary</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
+				<c:forEach var="item" items="${list}">
+				  	<tr onclick="location.href='board?boardIdx=${item.boardIdx}'" style="cursor:pointer;">
+						<td>${item.boardIdx}</td>
+						<td>[${item.boardSubject}] ${item.boardTitle}</td>
+						<td>${item.userNickname}</td>
+						<td>${item.boardViews}</td>
+						<td>${item.boardComments}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
 
-	<div class="container" style="height: 30px;"></div>
+	<div class="container" style="height: 30px;">
+		<div style="float: right;">
+		  	<%	if (session.getAttribute("userIdx") == null) { %>
+			<!-- 글 작성 버튼 비활성화 -->
+				<button type="button" class="btn btn-outline-dark" disabled>글 쓰기</button>
+			<% } else { %>
+			<!-- 글 작성 버트튼 활성화 -->
+				<button type="button" class="btn btn-outline-dark" onclick="location.href='writeBoard'">글 쓰기</button>
+			<% } %>
+	  	</div>
+	</div>
+	
+	<div class="container" style="height: 20px;"></div>
 
 	<div class="container">
 		<nav class="navbar navbar-expand-sm justify-content-center">
