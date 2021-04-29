@@ -22,14 +22,27 @@ public class BoardServiceImpl implements BoardService {
 
 	// 모든 게시물 가져오기
 	@Override
-	public List<BoardVO> selectAllBoard() {
-		return dao.selectAllBoard();
+	public List<BoardVO> selectAllBoard(int startNum) {
+		return dao.selectAllBoard(startNum);
+	}
+	
+	// 모든 게시물 인기순으로 가져오기
+	@Override
+	public List<BoardVO> selectAllBoardPopularity(int startNum) {
+		return dao.selectAllBoardPopularity(startNum);
+		
 	}
 
 	// 한개의 게시물 가져오기
 	@Override
 	public BoardVO selectOneInfo(int boardIdx) {
 		return dao.selectOneInfo(boardIdx);
+	}
+	
+	// 검색한 단어가 포함된 게시물 가져오기
+	@Override
+	public List<BoardVO> selectSearch(String word, int startNum) {
+		return dao.selectSearch(word, startNum);
 	}
 
 	// 조회수 +1

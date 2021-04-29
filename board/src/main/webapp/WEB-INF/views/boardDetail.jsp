@@ -65,10 +65,10 @@
 			
 			<!-- 글 수정/삭제/신고 -->
 			<div class="col-sm-6">
-				<%	if (session.getAttribute("userIdx") == request.getAttribute("userIdx")) { %>
+				<%	if (session.getAttribute("userIdx") == session.getAttribute("writerIdx")) { %>
 				<!-- 수정/ 삭제 -->
 					<div style="float: right;">
-						<button type="button" class="btn btn-dark">수정</button>
+						<button type="button" class="btn btn-dark" onclick="location.href='writeBoard?boardIdx=${boardInfo.boardIdx}'">수정</button>
 						<button type="button" class="btn btn-dark" onclick="deleteBoardFunc();">삭제</button>
 					</div>
 				<% } else { %>

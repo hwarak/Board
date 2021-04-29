@@ -17,6 +17,18 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	
 <script type="text/javascript">
+   $(document).ready(function () {
+     $('#radio1').click(function () {
+       alert("최신순!");
+     });
+
+     $('#radio2').click(function () {
+      alert("인기순!")
+     });
+   });
+ </script>
+	
+<script type="text/javascript">
 
 $(document).ready(function(e){
 	   $('#logout').click(function() {
@@ -32,6 +44,7 @@ function goMainFunc(){
 	location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
 }
 </script>
+
 
 </head>
 <body>
@@ -68,10 +81,14 @@ function goMainFunc(){
 		<div class="row">
 			<!-- 검색바 -->
 			<div class="col-sm-5">
-				<form class="form-inline" action="/action_page.php">
-					<input class="form-control mr-sm-2" type="text"
-						placeholder="Search" style="width: 76%;">
-					<button class="btn btn-dark" type="submit">Search</button>
+				 <form action="main/search" method="get">
+					<div style="float: left; margin-right: 10px;width: 75%">
+						<input name="word" class="form-control mr-sm-2" type="text"
+							placeholder="Search">
+					</div>
+					<div style="float: left;">
+						<button class="btn btn-dark" type="submit" ">Search</button>
+					</div>
 				</form>
 			</div>
 			<!-- 게시물 정렬 -->
@@ -106,7 +123,7 @@ function goMainFunc(){
 			</thead>
 			<tbody>
 				<c:forEach var="item" items="${list}">
-				  	<tr onclick="location.href='board?boardIdx=${item.boardIdx}'" style="cursor:pointer;">
+				  	<tr onclick="location.href='${pageContext.request.contextPath}/board?boardIdx=${item.boardIdx}&userIdx=${item.userIdx}'" style="cursor:pointer;">
 						<td>${item.boardIdx}</td>
 						<td>[${item.boardSubject}] ${item.boardTitle}</td>
 						<td>${item.userNickname}</td>

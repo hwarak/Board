@@ -28,8 +28,15 @@ public class BoardDAOImpl implements BoardDAO {
 
 	// 모든 게시물 가져오기
 	@Override
-	public List<BoardVO> selectAllBoard() {
-		List<BoardVO> list = sqlSession.selectList("com.board.mappers.Boardmapper.selectAllBoard");
+	public List<BoardVO> selectAllBoard(int startNum) {
+		List<BoardVO> list = sqlSession.selectList("com.board.mappers.Boardmapper.selectAllBoard", startNum);
+		return list;
+	}
+	
+	// 모든 게시물 인기순으로 가져오기
+	@Override
+	public List<BoardVO> selectAllBoardPopularity(int startNum) {
+		List<BoardVO> list = sqlSession.selectList("com.board.mappers.Boardmapper.selectAllBoardPopularity", startNum);
 		return list;
 	}
 
@@ -38,6 +45,16 @@ public class BoardDAOImpl implements BoardDAO {
 	public BoardVO selectOneInfo(int boardIdx) {
 		BoardVO bavo = sqlSession.selectOne("com.board.mappers.Boardmapper.selectOneInfo", boardIdx);
 		return bavo;
+	}
+
+	// 검색한 단어가 포함된 게시물 가져오기
+	@Override
+	public List<BoardVO> selectSearch(String word, int startNum) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("word", "%"+word+"%");
+		map.put("startNum",startNum);
+		List<BoardVO> list = sqlSession.selectList("com.board.mappers.Boardmapper.selectSearch", map);
+		return list;
 	}
 
 	// 조회수 +1

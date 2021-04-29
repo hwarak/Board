@@ -22,18 +22,50 @@
 		from board 
 		left join user on board.user_idx = user.user_idx
     </sql>
+    
+    <sql id="selectSearchWord">
+    	where board_title like #{word}
+    </sql>
+    
+    <sql id="selectPopularity">
+    	order by board_views desc limit #{startNum},10
+    </sql>
+    
+    <sql id="selectDateDesc">
+    	order by board_date desc limit #{startNum},10
+    </sql>
+
 	
 	<!-- 게시물 리스트 가져오기 -->
 	<select id="selectAllBoard" resultType="com.board.vo.BoardVO">
  	 	<include refid="selectBoardInfo"></include>
-		order by board_date desc  
+		<include refid="selectDateDesc"></include>
+	</select>
+	
+	<!-- 인기순 -->
+	<select id="selectAllBoardPopularity" resultType="com.board.vo.BoardVO">
+ 	 	<include refid="selectBoardInfo"></include>
+		<include refid="selectPopularity"></include>
 	</select>
 	
 	<!-- 게시물 정보 가져오기 -->
 	<select id="selectOneInfo" resultType="com.board.vo.BoardVO">
 		<include refid="selectBoardInfo"></include> 
 		where board_idx = #{boardIdx}
-		order by board_date desc 
+	</select>
+	
+	<!-- 단어로 검색 -->
+	<select id="selectSearch" resultType="com.board.vo.BoardVO">
+		<include refid="selectBoardInfo"></include>
+		<include refid="selectSearchWord"></include>
+		<include refid="selectDateDesc"></include>
+	</select>
+
+	<!-- 검색 + 인기순 -->
+	<select id="selectSearchPopularity" resultType="com.board.vo.BoardVO">
+		<include refid="selectBoardInfo"></include>
+		<include refid="selectSearchWord"></include>
+		<include refid="selectPopularity"></include>
 	</select>
 	
 	<!-- 조회수 +1 -->
@@ -58,7 +90,7 @@
 	
 	<!-- 게시물 수정 -->
 	<update id="updateBoard">
-		update board set board_subject=#{boardSubject} and board_title=#{boardTitle} and board_contents=#{boardContents} where board_idx=#{boardIdx}
+		update board set board_subject=#{boardSubject}, board_title=#{boardTitle}, board_contents=#{boardContents} where board_idx=#{boardIdx}
 	</update>
 	
 

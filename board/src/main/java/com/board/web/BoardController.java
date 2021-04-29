@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,33 +32,65 @@ public class BoardController {
 	@Autowired
 	private JsonEcDcService jsonService;
 
+	// 게시물 작성 페이지
 	@RequestMapping(value = "/writeBoard")
-	public String writeBoardPage() {
+	public String writeBoardPage(@RequestParam(required = false) String boardIdx, HttpSession session, Model model) {
 
+		if (boardIdx == null) {
+			session.setAttribute("boardIdx", null);
+		} else {
+			session.setAttribute("boardIdx", boardIdx);
+			BoardVO bvo = boardService.selectOneInfo(Integer.parseInt(boardIdx));
+			model.addAttribute("boardInfo", bvo);
+		}
 		return "writeBoard";
 	}
 
+	// 게시물 등록
+	@ResponseBody
 	@PostMapping("/board")
-	public String postBoard(HttpSession session, BoardVO bvo) {
+	public Map postBoard(@RequestBody String str) {
 
-		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
-		boardService.insertBoard(userIdx, bvo.getBoardSubject(), bvo.getBoardTitle(), bvo.getBoardContents());
+		// json 파싱 후 반환
+		JSONObject obj = jsonService.jsonDc(str);
 
-		return "redirect:main?userIdx=" + userIdx;
+		int userIdx = (int) (long) obj.get("userIdx");
+		String boardSubject = (String) obj.get("boardSubject");
+		String boardTitle = (String) obj.get("boardTitle");
+		String boardContents = (String) obj.get("boardContents");
+
+		boardService.insertBoard(userIdx, boardSubject, boardTitle, boardContents);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", "ok");
+
+		return map;
 	}
 
-	@RequestMapping("/board")
-	public String getBoardInfo(Model model, HttpServletRequest request, @RequestParam int boardIdx) {
+	// 게시물 수정
+	@ResponseBody
+	@PutMapping("/board")
+	public Map putBoard(@RequestBody String str) {
 
-		boardService.updateViews(boardIdx);
+		// json 파싱 후 반환
+		JSONObject obj = jsonService.jsonDc(str);
 
-		BoardVO bvo = boardService.selectOneInfo(boardIdx);
-		model.addAttribute("boardInfo", bvo);
-		request.setAttribute("userIdx", bvo.getUserIdx());
+		String boardSubject = (String) obj.get("boardSubject");
+		String boardTitle = (String) obj.get("boardTitle");
+		String boardContents = (String) obj.get("boardContents");
+		int boardIdx = (int) (long) obj.get("boardIdx");
 
-		return "boardDetail";
+		System.out.println(str);
+
+		boardService.updateBoard(boardSubject, boardTitle, boardContents, boardIdx);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", "ok");
+
+		return map;
 	}
 
+	// 게실물 삭제
 	@ResponseBody
 	@DeleteMapping("/board")
 	public Map deleteBoard(@RequestBody String str) throws Exception {
@@ -73,5 +107,30 @@ public class BoardController {
 
 		return map;
 	}
+
+	// 게시물 내용 가져오기
+	@GetMapping("/board")
+	public String getBoardInfoPre(@RequestParam int boardIdx, @RequestParam int userIdx, HttpSession session) {
+		
+		System.out.println(boardIdx+"/"+userIdx);
+
+		boardService.updateViews(boardIdx);
+
+		session.setAttribute("writerIdx", userIdx);
+
+		return "redirect:boardDetail?boardIdx=" + boardIdx;
+	}
+
+	// 게시물 내용 가져오기
+	@GetMapping("/boardDetail")
+	public String getBoardInfo(Model model, @RequestParam int boardIdx) {
+
+		BoardVO bvo = boardService.selectOneInfo(boardIdx);
+		model.addAttribute("boardInfo", bvo);
+
+		return "boardDetail";
+	}
+
+	
 
 }

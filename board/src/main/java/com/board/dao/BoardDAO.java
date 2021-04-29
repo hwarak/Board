@@ -10,10 +10,16 @@ public interface BoardDAO {
 	public void insertBoard(int userIdx, String boardSubject, String boardTitle, String boardContents);
 
 	// 모든 게시물 가져오기
-	public List<BoardVO> selectAllBoard();
+	public List<BoardVO> selectAllBoard(int startNum);
+	
+	// 모든 게시물 인기순으로 가져오기
+	public List<BoardVO> selectAllBoardPopularity(int startNum);
 	
 	// 한개의 게시물 가져오기
 	public BoardVO selectOneInfo(int boardIdx);
+	
+	// 검색한 단어가 포함된 게시물 가져오기
+	public List<BoardVO> selectSearch(String word, int startNum);
 	
 	// 조회수 +1
 	public void updateViews(int boardIdx);
