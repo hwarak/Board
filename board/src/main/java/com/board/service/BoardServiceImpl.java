@@ -54,15 +54,15 @@ public class BoardServiceImpl implements BoardService {
 
 	// 댓글수 +1
 	@Override
-	public void updateCommentsPlus(int boardIdx) {
-		dao.updateCommentsPlus(boardIdx);
+	public void updateReplyPlus(int boardIdx) {
+		dao.updateReplyPlus(boardIdx);
 
 	}
 
 	// 댓글수 -1
 	@Override
-	public void updateCommentsMinus(int boardIdx) {
-		dao.updateCommentsMinus(boardIdx);
+	public void updateReplyMinus(int boardIdx) {
+		dao.updateReplyMinus(boardIdx);
 
 	}
 
@@ -80,4 +80,15 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
+	// 모든 게시물 페이지 개수
+	@Override
+	public int selectPageNumAll() {
+		return dao.selectPageNumAll();
+	}
+	
+	// 검색된 게시물 페이지 개수
+	@Override
+	public int selectPageNumSearch(String word) {
+		return dao.selectPageNumSearch(word);
+	}
 }

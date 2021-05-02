@@ -18,16 +18,64 @@
 	
 <script type="text/javascript">
    $(document).ready(function () {
+	   var formData = new FormData();
+
+	   // 최신순 눌렀을때
      $('#radio1').click(function () {
-       alert("최신순!");
+		$.ajax({
+			type : "get",
+			url : "sort?sortNum=1",
+			dataType : "text",
+			data : formData, 
+			contentType: false, 
+			processData: false, 
+			cache : false,
+			success : function(data) {
+				sortFunc(data) 
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+		
      });
 
+	   // 인기순 눌렀을때
      $('#radio2').click(function () {
-      alert("인기순!")
-     });
+ 		$.ajax({
+			type : "get",
+			url : "sort?sortNum=2",
+			dataType : "text",
+			data : formData, 
+			contentType: false, 
+			processData: false, 
+			cache : false,
+			success : function(data) {
+				sortFunc(data) 
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+ 		
+      });
+     
    });
+
+
+   function sortFunc(data) {
+	   	var html = jQuery('<div>').html(data);
+		var contents1 = html.find("div#indexListAjax").html();
+		var contents2 = html.find("div#sortNumIdx").html();
+		$("#resultList").html(contents1);
+		$("#navbarIdx").html(contents2);
+		
+   }
+
  </script>
-	
+
+
+
 <script type="text/javascript">
 
 $(document).ready(function(e){
@@ -43,6 +91,47 @@ $(document).ready(function(e){
 function goMainFunc(){
 	location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
 }
+
+function goPageNum1(data){
+	var formData = new FormData();
+	$.ajax({
+		type : "get",
+		url : "sort?sortNum=1&pageNum="+data,
+		dataType : "text",
+		data : formData, 
+		contentType: false, 
+		processData: false, 
+		cache : false,
+		success : function(data) {
+			sortFunc(data) 
+		},
+		error : function(){
+            alert("통신실패");
+        }
+	});
+}
+
+function goPageNum2(data){
+	var formData = new FormData();
+	$.ajax({
+		type : "get",
+		url : "sort?sortNum=2&pageNum="+data,
+		dataType : "text",
+		data : formData, 
+		contentType: false, 
+		processData: false, 
+		cache : false,
+		success : function(data) {
+			sortFunc(data) 
+		},
+		error : function(){
+            alert("통신실패");
+        }
+	});
+}
+
+
+
 </script>
 
 
@@ -81,13 +170,13 @@ function goMainFunc(){
 		<div class="row">
 			<!-- 검색바 -->
 			<div class="col-sm-5">
-				 <form action="main/search" method="get">
+				 <form action="search" method="get">
 					<div style="float: left; margin-right: 10px;width: 75%">
 						<input name="word" class="form-control mr-sm-2" type="text"
 							placeholder="Search">
 					</div>
 					<div style="float: left;">
-						<button class="btn btn-dark" type="submit" ">Search</button>
+						<button class="btn btn-dark" type="submit">Search</button>
 					</div>
 				</form>
 			</div>
@@ -110,7 +199,7 @@ function goMainFunc(){
 	</div>
 
 	<!-- 표 -->
-	<div class="container">
+	<div class="container" id="resultList">
 		<table class="table">
 			<thead>
 				<tr>
@@ -128,7 +217,7 @@ function goMainFunc(){
 						<td>[${item.boardSubject}] ${item.boardTitle}</td>
 						<td>${item.userNickname}</td>
 						<td>${item.boardViews}</td>
-						<td>${item.boardComments}</td>
+						<td>${item.boardReply}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -150,18 +239,23 @@ function goMainFunc(){
 	<div class="container" style="height: 20px;"></div>
 
 	<div class="container">
+	<div id="navbarIdx">
 		<nav class="navbar navbar-expand-sm justify-content-center">
 			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="#">1</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">2</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">3</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">4</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">5</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">6</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">7</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">8</a></li>
+				<c:forEach var="i" begin="1" end="${allPage}">
+				<%if(session.getAttribute("userIdx") == null && ((session.getAttribute("sort") == null) || (Integer.parseInt(session.getAttribute("sort").toString())==1))){%>
+					<li class="nav-item"><a class="nav-link" href="javascript:goPageNum1(${i});">${i}</a></li>
+				<%} else if(session.getAttribute("userIdx") == null && (Integer.parseInt(session.getAttribute("sort").toString())==2)){%>
+					<li class="nav-item"><a class="nav-link" href="javascript:goPageNum2(${i});">${i}</a></li>
+				<%} else if(session.getAttribute("userIdx") != null && ((session.getAttribute("sort") == null) || (Integer.parseInt(session.getAttribute("sort").toString())==1))){%>
+					<li class="nav-item"><a class="nav-link" href="javascript:goPageNum1(${i});">${i}</a></li>
+				<%}	else{%>
+					<li class="nav-item"><a class="nav-link" href="javascript:goPageNum2(${i});">${i}</a></li>
+				<%}%>
+				</c:forEach>
 			</ul>
 		</nav>
+	</div>
 	</div>
 
 </body>

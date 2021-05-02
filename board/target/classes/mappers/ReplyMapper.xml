@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mappers.ReplyMapper">
+
+	<!-- 댓글 등록 -->
+	<insert id="insertReply">
+		insert into reply(reply_contents,user_idx,board_idx,reply_secret,reply_recipient) value(#{replyContents}, #{userIdx}, #{boardIdx}, #{replySecret}, #{replyRecipient}) 
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+		delete from reply where reply_idx=#{replyIdx}
+	</delete>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply">
+		update reply set reply_contents=#{replyContents} and reply_secret=#{replySecret} where reply_idx=#{replyIdx}
+	</update>
+	
+	<!-- 댓글 최신순으로 불러오기 -->
+	<select id="selectReply" resultType="com.board.vo.ReplyVO">
+		select 
+		reply_idx as riplyIdx,
+		reply_contents as replyContents,
+		user_idx as userIdx,
+		board_idx as boardIdx,
+		reply_secret as replySecret,
+		reply_recipient as replyRecipient,
+		reply_date as replyDate
+		from reply where board_idx=#{boardIdx}
+		order by reply_date desc
+	</select>
+
+
+</mapper>

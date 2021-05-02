@@ -61,7 +61,7 @@ function updateBoardFunc(){
 		success : function(data) {
 			if (data.result == "ok") {
 				alert("수정 완료.");
-				location.href="board?boardIdx="+<%=session.getAttribute("boardIdx")%>;
+				location.href="board?boardIdx="+<%=session.getAttribute("boardIdx")%>+"&userIdx=${boardInfo.userIdx}";
 			}
 		},
 		error : function(){
@@ -69,11 +69,46 @@ function updateBoardFunc(){
         }
 	});
 }
+
+function goMainFunc(){
+	location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
+}
+
+$(document).ready(function(e){
+	   $('#logout').click(function() {
+		   alert("로그아웃되었습니다");
+	   });
+	});
 </script>
 </head>
 <body class="container" style="width: 40%;">
 
-	<div class="container" style="height: 100px;"></div>
+	<div class="container" style="height: 80px;"></div>
+
+	<!-- 로그인/회원가입/내정보/로그아웃 -->
+	<div class="container" style="height: 50px;">
+			<%	if (session.getAttribute("userIdx") == null) { %>
+			<!-- 로그인/회원가입 버튼 -->
+				<ul class="nav justify-content-end">
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
+						style="color: black;">홈</a></li>
+					<li class="nav-item"><a class="nav-link" href="signIn"
+						style="color: black;">로그인</a></li>
+					<li class="nav-item"><a class="nav-link" href="signUp"
+						style="color: black;">회원가입</a></li>
+				</ul>
+			<% } else { %>
+			<!-- 내 정보 /로그아웃 버튼-->
+				<ul class="nav justify-content-end">
+					<li class="nav-item"><a class="nav-link" href="javascript:goMainFunc();" 
+						style="color: black;">홈</a></li>
+					<li id="logout" class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
+						style="color: black;">로그아웃</a></li>
+				</ul>
+			<% } %>
+	</div>
+	
+	<div class="container" style="height: 40px;"></div>
 
 	<div class="container">
 		<h2>글 쓰기</h2>

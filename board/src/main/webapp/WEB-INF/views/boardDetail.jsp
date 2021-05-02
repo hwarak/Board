@@ -18,6 +18,17 @@
 
 
 <script type="text/javascript">
+
+	function goMainFunc(){
+		location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
+	}
+
+	$(document).ready(function(e){
+		   $('#logout').click(function() {
+			   alert("로그아웃되었습니다");
+		   });
+		});
+
 	function deleteBoardFunc(){
 
 		var data = {};
@@ -43,6 +54,36 @@
             }
 		});
 	}
+
+	function insertReplyFunc(){
+		var data = {};
+		alert($("#reply").val());
+		data["replyContents"] = $("#reply").val();
+		data["userIdx"] = <%=session.getAttribute("userIdx")%>;
+		data["boardIdx"] = ${boardInfo.boardIdx};
+		data["replySecret"] = 0;
+		data["replyRecipient"] = 0;
+
+		$.ajax({
+			type : "post",
+			url : "reply",
+			data : JSON.stringify(data),
+		    dataType: "json",
+		    contentType:"application/json;charset=UTF-8",
+			async : false,
+			success : function(data) {
+				
+				if (data.result == "ok") {
+					alert("등록 완료.");
+				}
+
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+
+	}
 	
 		
 	
@@ -50,7 +91,32 @@
 </head>
 <body class="container" style="width: 50%;" >
 
-	<div class="container" style="height: 100px;"></div>
+	<div class="container" style="height: 80px;"></div>
+
+	<!-- 로그인/회원가입/내정보/로그아웃 -->
+	<div class="container" style="height: 50px;">
+			<%	if (session.getAttribute("userIdx") == null) { %>
+			<!-- 로그인/회원가입 버튼 -->
+				<ul class="nav justify-content-end">
+					<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
+						style="color: black;">홈</a></li>
+					<li class="nav-item"><a class="nav-link" href="signIn"
+						style="color: black;">로그인</a></li>
+					<li class="nav-item"><a class="nav-link" href="signUp"
+						style="color: black;">회원가입</a></li>
+				</ul>
+			<% } else { %>
+			<!-- 내 정보 /로그아웃 버튼-->
+				<ul class="nav justify-content-end">
+					<li class="nav-item"><a class="nav-link" href="javascript:goMainFunc();" 
+						style="color: black;">홈</a></li>
+					<li id="logout" class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/"
+						style="color: black;">로그아웃</a></li>
+				</ul>
+			<% } %>
+	</div>
+	
+	<div class="container" style="height: 40px;"></div>
 	
 	<div class="container" style="height: 60px;">
 		<h2>[${boardInfo.boardSubject}] ${boardInfo.boardTitle}</h2>
@@ -100,18 +166,16 @@
 	<div class="container" style="height: 10px;"></div>
 	
 	<div class="container" style="height: 20px;">
-		<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardComments}개 </b></p>
+		<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardReply}개 </b></p>
 	</div>
 	
 	<div class="container" style="height: 20px;"></div>
 	
 	<div class="container" style="height: 150px;">
-		<form action="/action_page.php">
-			<div class="form-group">
-				<textarea class="form-control" rows="2" id="comment" name="text"></textarea>
-			</div>
-			<button type="button" class="btn btn-dark btn-block">리뷰 등록</button>
-		</form>
+		<div class="form-group">
+			<textarea class="form-control" rows="2" id="reply" name="reply"></textarea>
+		</div>
+		<button type="button" class="btn btn-dark btn-block" onclick="insertReplyFunc();">리뷰 등록</button>
 	</div>
 	
 	<div class="container" >

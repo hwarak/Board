@@ -25,6 +25,7 @@
 			<list>
 				<value>classpath:mappers/UserMapper.xml</value>
 				<value>classpath:mappers/BoardMapper.xml</value>
+				<value>classpath:mappers/ReplyMapper.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -35,7 +36,7 @@
 	
 	<bean id="UserBean" class="com.board.dao.UserDAOImpl"/>
 	<bean id="BoardBean" class="com.board.dao.BoardDAOImpl"/>
-	<bean id="CommentBean" class="com.board.dao.CommentDAOImpl"/>
+	<bean id="CommentBean" class="com.board.dao.ReplyDAOImpl"/>
 	
 	<context:component-scan base-package="com.board.service" />
 		

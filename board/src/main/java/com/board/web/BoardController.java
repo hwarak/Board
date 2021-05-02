@@ -93,7 +93,7 @@ public class BoardController {
 	// 게실물 삭제
 	@ResponseBody
 	@DeleteMapping("/board")
-	public Map deleteBoard(@RequestBody String str) throws Exception {
+	public Map deleteBoard(@RequestBody String str) {
 
 		// json 파싱 후 반환
 		JSONObject obj = jsonService.jsonDc(str);
@@ -112,8 +112,6 @@ public class BoardController {
 	@GetMapping("/board")
 	public String getBoardInfoPre(@RequestParam int boardIdx, @RequestParam int userIdx, HttpSession session) {
 		
-		System.out.println(boardIdx+"/"+userIdx);
-
 		boardService.updateViews(boardIdx);
 
 		session.setAttribute("writerIdx", userIdx);

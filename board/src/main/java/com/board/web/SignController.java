@@ -3,6 +3,8 @@ package com.board.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,16 +40,14 @@ public class SignController {
 
 	@ResponseBody
 	@PostMapping(value = "/signIn/checkIdPw")
-	public Map signIn(@RequestBody String str) {
-		
-		System.out.println(str);
+	public Map signIn(@RequestBody String str, HttpSession session) {
+
+		session.setAttribute("sort", 1);
 
 		// json 파싱 후 반환
 		JSONObject obj = jsonService.jsonDc(str);
 		String userId = (String) obj.get("userId");
 		String userPw = (String) obj.get("userPw");
-		
-		
 
 		// 로그인 성공이면 유저 번호 반환
 		// 로그인 실패면 0을 반환
@@ -55,6 +55,7 @@ public class SignController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
+
 		return map;
 	}
 

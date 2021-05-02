@@ -5,7 +5,7 @@
 	
 	<!-- 게시물 등록 -->
 	<insert id="insertBoard">
-		insert board(user_idx,board_subject,board_title,board_contents) value(#{userIdx},#{boardSubject},#{boardTitle},#{boardContents})
+		insert into board(user_idx,board_subject,board_title,board_contents) value(#{userIdx},#{boardSubject},#{boardTitle},#{boardContents})
 	</insert>
 	
 	<sql id="selectBoardInfo">
@@ -16,7 +16,7 @@
 		board.board_contents as boardContents,
 		board.board_date as boardDate,
 		board.board_views as boardViews,
-		board.board_comments as boardComments,
+		board.board_reply as boardReply,
 		user.user_idx as userIdx,
 		user.user_nickname as userNickname 
 		from board 
@@ -33,6 +33,10 @@
     
     <sql id="selectDateDesc">
     	order by board_date desc limit #{startNum},10
+    </sql>
+    
+    <sql id="selectPageNum">
+    	select if((count(*)%10)=0,(count(*)/10),(count(*)/10)+1) as result from board
     </sql>
 
 	
@@ -74,13 +78,13 @@
 	</update>
 	
 	<!-- 댓글수 +1 -->
-	<update id="updateCommentsPlus">
-		update board set board_comments= board_comments+1 where board_idx=#{boardIdx}
+	<update id="updateReplyPlus">
+		update board set board_reply= board_reply+1 where board_idx=#{boardIdx}
 	</update>
 	
 	<!-- 댓글수 -1 -->
-	<update id="updateCommentsMinus">
-		update board set board_views= board_comments-1 where board_idx=#{boardIdx}
+	<update id="updateReplyMinus">
+		update board set board_reply= board_reply-1 where board_idx=#{boardIdx}
 	</update>
 	
 	<!-- 게시물 삭제 -->
@@ -92,6 +96,17 @@
 	<update id="updateBoard">
 		update board set board_subject=#{boardSubject}, board_title=#{boardTitle}, board_contents=#{boardContents} where board_idx=#{boardIdx}
 	</update>
+	
+	<!-- 게시물 개수 가져오기 -->
+	<select id="selectPageNumAll" resultType="Integer">
+		<include refid="selectPageNum"></include>
+	</select>
+	
+	<!-- 검색된 게시물 개수 가져오기 -->
+	<select id="selectPageNumSearch" resultType="Integer">
+		<include refid="selectPageNum"></include>
+		<include refid="selectSearchWord"></include>
+	</select>
 	
 
 </mapper>

@@ -13,5 +13,5 @@ public class BoardVO {
 	private String boardContents;
 	private String boardDate;
 	private int boardViews;
-	private int boardComments;
+	private int boardReply;
 }

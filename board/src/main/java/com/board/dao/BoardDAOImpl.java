@@ -66,15 +66,15 @@ public class BoardDAOImpl implements BoardDAO {
 
 	// 댓글수 +1
 	@Override
-	public void updateCommentsPlus(int boardIdx) {
-		sqlSession.update("com.board.mappers.Boardmapper.updateCommentsPlus", boardIdx);
+	public void updateReplyPlus(int boardIdx) {
+		sqlSession.update("com.board.mappers.Boardmapper.updateReplyPlus", boardIdx);
 
 	}
 
 	// 댓글수 -1
 	@Override
-	public void updateCommentsMinus(int boardIdx) {
-		sqlSession.update("com.board.mappers.Boardmapper.updateCommentsMinus", boardIdx);
+	public void updateReplyMinus(int boardIdx) {
+		sqlSession.update("com.board.mappers.Boardmapper.updateReplyMinus", boardIdx);
 
 	}
 
@@ -96,5 +96,19 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.update("com.board.mappers.Boardmapper.updateBoard", map);
 
 	}
+
+	// 모든 게시물 페이지 개수
+	@Override
+	public int selectPageNumAll() {
+		return sqlSession.selectOne("com.board.mappers.Boardmapper.selectPageNumAll");
+	}
+
+	// 검색된 게시물 페이지 개수
+	@Override
+	public int selectPageNumSearch(String word) {
+		return sqlSession.selectOne("com.board.mappers.Boardmapper.selectPageNumSearch",word);
+	}
+	
+	
 
 }
