@@ -21,14 +21,18 @@
 		</thead>
 		<tbody>
 			<c:forEach var="item" items="${list}">
-			  	<tr onclick="location.href='${pageContext.request.contextPath}/board?boardIdx=${item.boardIdx}&userIdx=${item.userIdx}'" style="cursor:pointer;">
-					<td>${item.boardIdx}</td>
-					<td>[${item.boardSubject}] ${item.boardTitle}</td>
-					<td>${item.userNickname}</td>
-					<td>${item.boardViews}</td>
-					<td>${item.boardReply}</td>
-				</tr>
-			</c:forEach>
+					<%if(session.getAttribute("userIdx")==null){ %>
+					<tr onclick="goLogin();" style="cursor:pointer;">
+				  	<%}else{ %>
+				  	<tr onclick="location.href='${pageContext.request.contextPath}/board?boardIdx=${item.boardIdx}&userIdx=${item.userIdx}'" style="cursor:pointer;">
+					<%} %>
+						<td>${item.boardIdx}</td>
+						<td>[${item.boardSubject}] ${item.boardTitle}</td>
+						<td>${item.userNickname}</td>
+						<td>${item.boardViews}</td>
+						<td>${item.boardReply}</td>
+					</tr>
+				</c:forEach>
 		</tbody>
 	</table>
 </div>

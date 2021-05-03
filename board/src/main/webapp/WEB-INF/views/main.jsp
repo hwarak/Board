@@ -17,6 +17,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	
 <script type="text/javascript">
+
    $(document).ready(function () {
 	   var formData = new FormData();
 
@@ -130,6 +131,11 @@ function goPageNum2(data){
 	});
 }
 
+function goLogin(){
+	alert("로그인 하셔야 볼 수 있어요.");
+	location.href="signIn";
+}
+
 
 
 </script>
@@ -212,7 +218,11 @@ function goPageNum2(data){
 			</thead>
 			<tbody>
 				<c:forEach var="item" items="${list}">
+					<%if(session.getAttribute("userIdx")==null){ %>
+					<tr onclick="goLogin();" style="cursor:pointer;">
+				  	<%}else{ %>
 				  	<tr onclick="location.href='${pageContext.request.contextPath}/board?boardIdx=${item.boardIdx}&userIdx=${item.userIdx}'" style="cursor:pointer;">
+					<%} %>
 						<td>${item.boardIdx}</td>
 						<td>[${item.boardSubject}] ${item.boardTitle}</td>
 						<td>${item.userNickname}</td>

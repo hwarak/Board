@@ -21,7 +21,7 @@
 	<!-- 댓글 최신순으로 불러오기 -->
 	<select id="selectReply" resultType="com.board.vo.ReplyVO">
 		select 
-		reply.reply_idx as riplyIdx,
+		reply.reply_idx as replyIdx,
 		reply.reply_contents as replyContents,
 		reply.user_idx as userIdx,
 		reply.board_idx as boardIdx,

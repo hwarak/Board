@@ -94,6 +94,36 @@
 
 	}
 
+	function deleteReply(replyIdx){
+
+		var data = {};
+
+		data["boardIdx"] = ${boardInfo.boardIdx};
+		data["replyIdx"] = replyIdx;
+
+		$.ajax({
+			type : "delete",
+			url : "reply",
+			data : JSON.stringify(data),
+		    dataType: "json",
+		    contentType:"application/json;charset=UTF-8",
+			async : false,
+			success : function(data) {
+				
+				if (data.result == "ok") {
+					getList();
+				}
+
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+		
+		
+	}
+	
+
 	function getList(){
 		var formData = new FormData();
 		$.ajax({
@@ -106,14 +136,19 @@
 			cache : false,
 			success : function(data) {
 				var html = jQuery('<div>').html(data);
-				var contents = html.find("div#replyList").html();
-				$("#replyList").html(contents);
+				var contents1 = html.find("div#replyList").html();
+				var contents2 = html.find("div#replyCount").html();
+				$("#replyList").html(contents1);
+				$("#replyCount").html(contents2);
 			},
 			error : function(){
                 alert("통신실패");
             }
 		});
 	}
+
+	
+	
 	
 		
 	
@@ -199,7 +234,7 @@
 	
 	<!-- 댓글 개수 -->
 	<div class="container" style="height: 20px;">
-	  <div style="float: left;">
+	  <div style="float: left;" id="replyCount">
 	  	<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardReply}개 </b></p>
 	  </div>
 	  <!-- 비밀글 체크 -->
@@ -243,7 +278,7 @@
 									    <a class="nav-link" href="#">수정</a>
 									  </li>
 									  <li class="nav-item">
-									    <a class="nav-link" href="#">삭제</a>
+									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
 									</ul>
 								</div>
@@ -269,7 +304,7 @@
 								<div style="float: right;">
 									<ul class="nav">
 									  <li class="nav-item">
-									    <a class="nav-link" href="#">삭제</a>
+									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
 									</ul>
 								</div>
@@ -302,7 +337,7 @@
 									    <a class="nav-link" href="#">수정</a>
 									  </li>
 									  <li class="nav-item">
-									    <a class="nav-link" href="#">삭제</a>
+									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
 									</ul>
 								</div>

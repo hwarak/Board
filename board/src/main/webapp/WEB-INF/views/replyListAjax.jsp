@@ -8,12 +8,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div id="replyCount">
+	<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardReply}개 </b></p>
+</div>
 <div id="replyList">
 	<ul class="list-group">
 	  	<c:forEach var="item" items="${list}">
 	  		<li class="list-group-item">
 	  		<c:choose>
+	  		
 	  			<c:when test="${compare eq 1}">
+	  			
 	  				<c:if test="${item.compare eq 1}">
 	  					<div>
 							<div style="height:30px;">
@@ -31,7 +36,7 @@
 									    <a class="nav-link" href="#">수정</a>
 									  </li>
 									  <li class="nav-item">
-									    <a class="nav-link" href="#">삭제</a>
+									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
 									</ul>
 								</div>
@@ -57,7 +62,7 @@
 								<div style="float: right;">
 									<ul class="nav">
 									  <li class="nav-item">
-									    <a class="nav-link" href="#">삭제</a>
+									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
 									</ul>
 								</div>
@@ -90,7 +95,7 @@
 									    <a class="nav-link" href="#">수정</a>
 									  </li>
 									  <li class="nav-item">
-									    <a class="nav-link" href="#">삭제</a>
+									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
 									</ul>
 								</div>
