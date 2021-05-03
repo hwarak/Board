@@ -27,12 +27,6 @@ public interface BoardService {
 	// 조회수 +1
 	public void updateViews(int boardIdx);
 
-	// 댓글수 +1
-	public void updateReplyPlus(int boardIdx);
-
-	// 댓글수 -1
-	public void updateReplyMinus(int boardIdx);
-
 	// 게시물 삭제
 	public void deleteBoard(int boardIdx);
 

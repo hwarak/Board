@@ -1,9 +1,9 @@
 package com.board.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -21,13 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.board.service.BoardService;
 import com.board.service.JsonEcDcService;
+import com.board.service.ReplyService;
 import com.board.vo.BoardVO;
+import com.board.vo.ReplyVO;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private ReplyService replyService;
 
 	@Autowired
 	private JsonEcDcService jsonService;
@@ -121,11 +126,24 @@ public class BoardController {
 
 	// 게시물 내용 가져오기
 	@GetMapping("/boardDetail")
-	public String getBoardInfo(Model model, @RequestParam int boardIdx) {
+	public String getBoardInfo(Model model, @RequestParam int boardIdx, HttpSession session) {
 
+		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
+		
+		// 게시물 정보
 		BoardVO bvo = boardService.selectOneInfo(boardIdx);
 		model.addAttribute("boardInfo", bvo);
-
+		
+		// 댓글 리스트
+		List<ReplyVO> list = replyService.selectReply(boardIdx,userIdx);
+		model.addAttribute("list", list);
+		
+		if(bvo.getUserIdx() == userIdx){
+			model.addAttribute("compare", 1);
+		}else {
+			model.addAttribute("compare", 0);
+		}
+		
 		return "boardDetail";
 	}
 

@@ -36,10 +36,23 @@ public class ReplyServiceImpl implements ReplyService {
 
 	// 댓글 최신순으로 불러오기
 	@Override
-	public List<ReplyVO> selectReply(int boardIdx) {
-		List<ReplyVO> list = dao.selectReply(boardIdx);
+	public List<ReplyVO> selectReply(int boardIdx,int userIdx) {
+		List<ReplyVO> list = dao.selectReply(boardIdx,userIdx);
 		return list;
 
 	}
 
+	// 댓글수 +1
+	@Override
+	public void updateReplyPlus(int boardIdx) {
+		dao.updateReplyPlus(boardIdx);
+
+	}
+
+	// 댓글수 -1
+	@Override
+	public void updateReplyMinus(int boardIdx) {
+		dao.updateReplyMinus(boardIdx);
+
+	}
 }

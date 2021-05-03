@@ -52,20 +52,6 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
-	// 댓글수 +1
-	@Override
-	public void updateReplyPlus(int boardIdx) {
-		dao.updateReplyPlus(boardIdx);
-
-	}
-
-	// 댓글수 -1
-	@Override
-	public void updateReplyMinus(int boardIdx) {
-		dao.updateReplyMinus(boardIdx);
-
-	}
-
 	// 게시물 삭제
 	@Override
 	public void deleteBoard(int boardIdx) {

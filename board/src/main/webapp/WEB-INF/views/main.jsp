@@ -31,7 +31,7 @@
 			processData: false, 
 			cache : false,
 			success : function(data) {
-				sortFunc(data) 
+				sortFunc(data); 
 			},
 			error : function(){
                 alert("통신실패");
@@ -51,7 +51,7 @@
 			processData: false, 
 			cache : false,
 			success : function(data) {
-				sortFunc(data) 
+				sortFunc(data); 
 			},
 			error : function(){
                 alert("통신실패");

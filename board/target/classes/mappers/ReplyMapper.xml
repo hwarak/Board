@@ -21,16 +21,30 @@
 	<!-- 댓글 최신순으로 불러오기 -->
 	<select id="selectReply" resultType="com.board.vo.ReplyVO">
 		select 
-		reply_idx as riplyIdx,
-		reply_contents as replyContents,
-		user_idx as userIdx,
-		board_idx as boardIdx,
-		reply_secret as replySecret,
-		reply_recipient as replyRecipient,
-		reply_date as replyDate
-		from reply where board_idx=#{boardIdx}
+		reply.reply_idx as riplyIdx,
+		reply.reply_contents as replyContents,
+		reply.user_idx as userIdx,
+		reply.board_idx as boardIdx,
+		reply.reply_secret as replySecret,
+		reply.reply_recipient as replyRecipient,
+		reply.reply_date as replyDate,
+		user.user_nickName as userNickname,
+        if(reply.user_idx=#{userIdx},1,0) as compare
+		from reply 
+		left join user on reply.user_idx = user.user_idx
+        where board_idx=#{boardIdx}
 		order by reply_date desc
 	</select>
+	
+	<!-- 댓글수 +1 -->
+	<update id="updateReplyPlus">
+		update board set board_reply= board_reply+1 where board_idx=#{boardIdx}
+	</update>
+	
+	<!-- 댓글수 -1 -->
+	<update id="updateReplyMinus">
+		update board set board_reply= board_reply-1 where board_idx=#{boardIdx}
+	</update>
 
 
 </mapper>

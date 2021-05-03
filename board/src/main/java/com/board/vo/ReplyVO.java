@@ -12,4 +12,6 @@ public class ReplyVO {
 	private int replySecret;
 	private int replyRecipient;
 	private String replyDate;
+	private String userNickname;
+	private int compare;
 }

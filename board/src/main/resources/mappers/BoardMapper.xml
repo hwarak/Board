@@ -77,16 +77,6 @@
 		update board set board_views= board_views+1 where board_idx=#{boardIdx}
 	</update>
 	
-	<!-- 댓글수 +1 -->
-	<update id="updateReplyPlus">
-		update board set board_reply= board_reply+1 where board_idx=#{boardIdx}
-	</update>
-	
-	<!-- 댓글수 -1 -->
-	<update id="updateReplyMinus">
-		update board set board_reply= board_reply-1 where board_idx=#{boardIdx}
-	</update>
-	
 	<!-- 게시물 삭제 -->
 	<delete id="deleteBoard">
 		delete from board where board_idx=#{boardIdx}

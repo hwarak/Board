@@ -16,6 +16,13 @@ public interface ReplyDAO {
 	public void updateReply(String replyContents, int replySecret);
 
 	// 댓글 최신순으로 불러오기
-	public List<ReplyVO> selectReply(int boardIdx);
+	public List<ReplyVO> selectReply(int boardIdx, int userIdx);
+
+	// 댓글수 +1
+	public void updateReplyPlus(int boardIdx);
+
+	// 댓글수 -1
+	public void updateReplyMinus(int boardIdx);
+
 
 }

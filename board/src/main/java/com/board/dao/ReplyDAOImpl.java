@@ -45,10 +45,28 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 	// 댓글 최신순으로 불러오기
 	@Override
-	public List<ReplyVO> selectReply(int boardIdx) {
-		List<ReplyVO> list = sqlSession.selectList("com.board.mappers.ReplyMapper.selectReply", boardIdx);
+	public List<ReplyVO> selectReply(int boardIdx,int userIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardIdx", boardIdx);
+		map.put("userIdx", userIdx);
+		List<ReplyVO> list = sqlSession.selectList("com.board.mappers.ReplyMapper.selectReply", map);
 		return list;
 
 	}
+	
+	// 댓글수 +1
+	@Override
+	public void updateReplyPlus(int boardIdx) {
+		sqlSession.update("com.board.mappers.ReplyMapper.updateReplyPlus", boardIdx);
+
+	}
+
+	// 댓글수 -1
+	@Override
+	public void updateReplyMinus(int boardIdx) {
+		sqlSession.update("com.board.mappers.ReplyMapper.updateReplyMinus", boardIdx);
+
+	}
+
 
 }

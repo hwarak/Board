@@ -55,13 +55,21 @@
 		});
 	}
 
+	// 댓글 등록
 	function insertReplyFunc(){
 		var data = {};
-		alert($("#reply").val());
+		
+		var replySecretCheck = document.getElementById('replySecret');
+
+		if($(replySecretCheck).prop("checked")){
+			data["replySecret"] = 1;
+		}else{
+			data["replySecret"] = 0;
+		}
+		
 		data["replyContents"] = $("#reply").val();
 		data["userIdx"] = <%=session.getAttribute("userIdx")%>;
 		data["boardIdx"] = ${boardInfo.boardIdx};
-		data["replySecret"] = 0;
 		data["replyRecipient"] = 0;
 
 		$.ajax({
@@ -74,7 +82,8 @@
 			success : function(data) {
 				
 				if (data.result == "ok") {
-					alert("등록 완료.");
+					document.getElementById("reply").value='';
+					getList();
 				}
 
 			},
@@ -83,6 +92,27 @@
             }
 		});
 
+	}
+
+	function getList(){
+		var formData = new FormData();
+		$.ajax({
+			type : "get",
+			url : "reply?boardIdx=${boardInfo.boardIdx}&writer=${boardInfo.userIdx}",
+			dataType : "text",
+			data : formData, 
+			contentType: false, 
+			processData: false, 
+			cache : false,
+			success : function(data) {
+				var html = jQuery('<div>').html(data);
+				var contents = html.find("div#replyList").html();
+				$("#replyList").html(contents);
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
 	}
 	
 		
@@ -118,6 +148,7 @@
 	
 	<div class="container" style="height: 40px;"></div>
 	
+	<!-- 게시물 [말머리]제목 -->
 	<div class="container" style="height: 60px;">
 		<h2>[${boardInfo.boardSubject}] ${boardInfo.boardTitle}</h2>
 	</div>
@@ -155,6 +186,7 @@
 	
 	<div class="container" style="height: 10px;"></div>
 	
+	<!-- 게시물 내용 -->
 	<div class="container" style="height: 400px;">
 		<p>${boardInfo.boardContents}</p>
 	</div>
@@ -165,8 +197,15 @@
 	
 	<div class="container" style="height: 10px;"></div>
 	
+	<!-- 댓글 개수 -->
 	<div class="container" style="height: 20px;">
-		<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardReply}개 </b></p>
+	  <div style="float: left;">
+	  	<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardReply}개 </b></p>
+	  </div>
+	  <!-- 비밀글 체크 -->
+	  <div style="float: right;">
+	  	<input type="checkbox" class="form-check-input" value="" id="replySecret">비밀글
+	  </div>
 	</div>
 	
 	<div class="container" style="height: 20px;"></div>
@@ -178,20 +217,126 @@
 		<button type="button" class="btn btn-dark btn-block" onclick="insertReplyFunc();">리뷰 등록</button>
 	</div>
 	
-	<div class="container" >
+	<!-- 댓글 -->
+	<div class="container" id="replyList" >
 	  <ul class="list-group">
-	    <li class="list-group-item">
-	    	<p>닉네임</p>
-	    	<p>댓글내용입니다.댓글내용입니다.댓글내용입니다.댓글내용입니다.</p>
-	    </li>
-	    <li class="list-group-item">
-	    	<p>닉네임</p>
-	    	<p>댓글내용입니다.댓글내용입니다.댓글내용입니다.댓글내용입니다.</p>
-	    </li>
-	    <li class="list-group-item">
-	    	<p>닉네임</p>
-	    	<p>댓글내용입니다.댓글내용입니다.댓글내용입니다.댓글내용입니다.</p>
-	    </li>
+	  	<c:forEach var="item" items="${list}">
+	  		<li class="list-group-item">
+	  		<c:choose>
+	  		
+	  			<c:when test="${compare eq 1}">
+	  			
+	  				<c:if test="${item.compare eq 1}">
+	  					<div>
+							<div style="height:30px;">
+								<div style="float: left;">
+				  					<c:if test="${item.replySecret eq 1}">
+				  						${item.userNickname} (비밀)
+				  					</c:if>
+				  					<c:if test="${item.replySecret eq 0}">
+				  						${item.userNickname}
+				  					</c:if>	
+								</div>
+								<div style="float: right;">
+									<ul class="nav">
+									  <li class="nav-item">
+									    <a class="nav-link" href="#">수정</a>
+									  </li>
+									  <li class="nav-item">
+									    <a class="nav-link" href="#">삭제</a>
+									  </li>
+									</ul>
+								</div>
+							</div>
+							<div style="height: 20px;"></div>
+					    	<div style="height:60px;">
+					    		${item.replyContents}
+					    	</div>
+				    	</div>
+	  				</c:if>
+	  				
+	  				<c:if test="${item.compare eq 0}">
+	  					<div>
+							<div style="height:30px;">
+								<div style="float: left;">
+				  					<c:if test="${item.replySecret eq 1}">
+				  						${item.userNickname} (비밀)
+				  					</c:if>
+				  					<c:if test="${item.replySecret eq 0}">
+				  						${item.userNickname}
+				  					</c:if>	
+								</div>
+								<div style="float: right;">
+									<ul class="nav">
+									  <li class="nav-item">
+									    <a class="nav-link" href="#">삭제</a>
+									  </li>
+									</ul>
+								</div>
+							</div>
+							<div style="height: 20px;"></div>
+					    	<div style="height:60px;">
+					    		${item.replyContents}
+					    	</div>
+				    	</div>
+	  				</c:if>
+	  				
+	  			</c:when>
+	  			
+	  			<c:when test="${compare eq 0}">
+	  				
+	  				<c:if test="${item.compare eq 1}">
+	  					<div>
+							<div style="height:30px;">
+								<div style="float: left;">
+				  					<c:if test="${item.replySecret eq 1}">
+				  						${item.userNickname} (비밀)
+				  					</c:if>
+				  					<c:if test="${item.replySecret eq 0}">
+				  						${item.userNickname}
+				  					</c:if>	
+								</div>
+								<div style="float: right;">
+									<ul class="nav">
+									  <li class="nav-item">
+									    <a class="nav-link" href="#">수정</a>
+									  </li>
+									  <li class="nav-item">
+									    <a class="nav-link" href="#">삭제</a>
+									  </li>
+									</ul>
+								</div>
+							</div>
+							<div style="height: 20px;"></div>
+					    	<div style="height:60px;">
+					    		${item.replyContents}
+					    	</div>
+				    	</div>
+	  				</c:if>
+	  				
+	  				<c:if test="${item.compare eq 0}">
+	  					<c:if test="${item.replySecret eq 1}">
+	  						<div style="height: 30px;"> 비밀글입니다.</div>
+	  					</c:if>
+	  					<c:if test="${item.replySecret eq 0}">
+	  						<div>
+								<div style="height:30px;">
+									<div style="float: left;">
+										${item.userNickname}	
+									</div>
+								</div>
+								<div style="height: 20px;"></div>
+						    	<div style="height:60px;">
+						    		${item.replyContents}
+						    	</div>
+					    	</div>
+	  					</c:if>
+	  				</c:if>
+	  				
+	  			</c:when>
+	  		</c:choose>
+	    	</li>
+		</c:forEach>
 	  </ul>
 	</div>
 	
