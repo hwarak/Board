@@ -2,6 +2,8 @@ package com.board.service;
 
 import org.springframework.stereotype.Service;
 
+import com.board.vo.UserInfoVO;
+
 @Service
 public interface UserService {
 
@@ -16,4 +18,8 @@ public interface UserService {
 
 	// 로그인
 	public int checkIdPw(String userId, String userPw);
+
+	// 유저 정보
+	public UserInfoVO selectUserInfo(int userIdx);
+
 }

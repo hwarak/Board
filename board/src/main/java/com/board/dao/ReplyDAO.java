@@ -11,6 +11,9 @@ public interface ReplyDAO {
 
 	// 댓글 삭제
 	public void deleteReply(int replyIdx);
+	
+	// 게시물 삭제시 해당 게시물에 달린 댓글들 삭제
+	public void deleteBoardReply(int boardIdx);
 
 	// 댓글 수정
 	public void updateReply(String replyContents, int replySecret);

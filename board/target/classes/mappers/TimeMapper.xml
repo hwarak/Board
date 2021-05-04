@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.grabme.mappers.TimeMapper">
+
+	<!-- 타임 등록 -->
+	<insert id="insertTime">
+		insert into time(shop_idx,time_date,time_available,time_people,time_max_people) 
+		value(#{shopIdx},#{timeDate},#{timeAvailable},#{timePeople},#{timeMaxPeople})
+	</insert>
+	
+	<!-- 타임 삭제 -->
+	<delete id="deleteTime">
+		delete from time where time_idx=#{timeIdx}
+	</delete>
+
+	<!-- 예약 가능한 인원수 -1 -->
+	<update id="updateTimePeopleMinus">
+		update time set time_people = time_people-1 where time_idx=#{timeIdx}
+	</update>
+	
+	<!-- 예약 가능한 인원수 +1 -->
+	<update id="updateTimePeoplePlus">
+		update time set time_people = time_people+1 where time_idx=#{timeIdx}
+	</update>
+	
+	<!-- time_max_people(예약 가능한 최대 인원)과 time_people(현재 에약 가능한 인원수) 비교 후 -->
+	<!-- time_del_status : 사장님이 선택한 타임을 삭제할 수 있으면 1, 없으면 0  -->
+	<!-- time_status :  선택한 타임에 예약 가능한 인원수가 0이면 0을 , 0보다 크면 1 -->
+	<update id="updateTimeStatus">
+		update time set time_status = if (time_people > 0, 1, 0), time_del_status = if (time_people != time_max_people, 0, 1) 
+		where time_idx=#{timeIdx}
+	</update>
+	
+	<!-- 비즈니즈스의 해당 날짜에 등록된 타임 리스트 -->
+	<select id="selectDate" resultType="com.grabme.vo.TimeVO">
+		select 
+		time_idx as timeIdx,
+		shop_idx as shopIdx,
+		time_date as timeDate,
+		time_available as timeAvailable,
+		time_status as timeStatus,
+		time_people as timePeople,
+		time_max_people as timeMaxPeople,
+		time_del_status as timeDelStatus,
+		if(time_status , 'true', 'false') as time_status, if (time_del_status , 'true', 'false') as time_del_status 
+		from time where shop_idx=#{shopIdx} and time_date=#{timeDate} order by time_time asc;
+	</select>
+	
+	<!-- 선택된 타임에 예약된 개인 고객들 리스트를 출력한다-->
+	<select id="selectUserByTime" resultType="com.grabme.vo.UserVO">
+		select 
+		user.user_idx as userIdx,
+		user.user_name as userName,
+		user.user_phone as userPhone,
+		user.user_profile_img as userProfileImg,
+		user.user_status as userStatus
+		from reservation
+		left join user on user.user_idx = reservation.user_idx
+		where reservation.time_idx = #{timeIdx};
+	</select>
+
+
+</mapper>

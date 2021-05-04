@@ -13,6 +13,11 @@
 		delete from reply where reply_idx=#{replyIdx}
 	</delete>
 	
+	<!-- 게시물 삭제시 해당 글에 달린 댓글들 삭제 -->
+	<delete id="deleteBoardReply">
+		delete from reply where board_idx=#{boardIdx}
+	</delete>
+	
 	<!-- 댓글 수정 -->
 	<update id="updateReply">
 		update reply set reply_contents=#{replyContents} and reply_secret=#{replySecret} where reply_idx=#{replyIdx}

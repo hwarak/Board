@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.board.vo.UserInfoVO;
+
 public class UserDAOImpl implements UserDAO {
 
 	@Autowired
@@ -42,6 +44,14 @@ public class UserDAOImpl implements UserDAO {
 		map.put("userPw", userPw);
 		return sqlSession.selectOne("com.board.mappers.UserMapper.checkIdPw", map);
 	}
+
+	// 유저 정보
+	@Override
+	public UserInfoVO selectUserInfo(int userIdx) {
+		return sqlSession.selectOne("com.board.mappers.UserMapper.selectUserInfo", userIdx);
+	}
+	
+	
 	
 	
 

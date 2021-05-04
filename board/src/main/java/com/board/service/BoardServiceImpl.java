@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.dao.BoardDAO;
+import com.board.dao.ReplyDAO;
 import com.board.vo.BoardVO;
 
 @Service
@@ -13,6 +14,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	private BoardDAO dao;
+	
+	@Autowired
+	private ReplyDAO rdao;
 
 	// 게시물 등록
 	@Override
@@ -49,14 +53,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void updateViews(int boardIdx) {
 		dao.updateViews(boardIdx);
-
 	}
 
 	// 게시물 삭제
 	@Override
 	public void deleteBoard(int boardIdx) {
 		dao.deleteBoard(boardIdx);
-
+		rdao.deleteBoardReply(boardIdx);
 	}
 
 	// 게시물 수정

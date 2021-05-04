@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.board.dao.UserDAO;
+import com.board.vo.UserInfoVO;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -34,6 +35,12 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int checkIdPw(String userId, String userPw) {
 		return dao.checkIdPw(userId, userPw);
+	}
+
+	// 유저 정보
+	@Override
+	public UserInfoVO selectUserInfo(int userIdx) {
+		return dao.selectUserInfo(userIdx);
 	}
 	
 	

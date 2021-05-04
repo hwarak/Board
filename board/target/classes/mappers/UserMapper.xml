@@ -23,4 +23,17 @@
 		select if (#{userPw} = (select user_pw from user where user_id=#{userId}),(select user_idx from user where user_id =#{userId}),0) as result
 	</select>
 	
+	<!-- 내 정보에 들어가는 정보들 -->
+	<select id="selectUserInfo" resultType="com.board.vo.UserInfoVO">
+		select
+		user_idx as userIdx,
+		user_nickname as userNickname,
+		(select count(*) from board where user_idx=#{userIdx}) as myBoard,
+		(select count(*) from reply where user_idx=#{userIdx}) as myReview
+		from user where user_idx=#{userIdx}
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	
+	
 </mapper>

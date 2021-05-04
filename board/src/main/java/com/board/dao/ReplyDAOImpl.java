@@ -32,6 +32,13 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public void deleteReply(int replyIdx) {
 		sqlSession.delete("com.board.mappers.ReplyMapper.deleteReply", replyIdx);
 	}
+	
+	
+	// 게시물 삭제시 해당 게시물에 달린 댓글들 삭제
+	@Override
+	public void deleteBoardReply(int boardIdx) {
+		sqlSession.delete("com.board.mappers.ReplyMapper.deleteBoardReply", boardIdx);
+	}
 
 	// 댓글 업데이트
 	@Override

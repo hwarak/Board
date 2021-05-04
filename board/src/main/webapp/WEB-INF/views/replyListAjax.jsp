@@ -12,7 +12,7 @@
 	<p style="font-size: 18px;"><b>댓글  ${boardInfo.boardReply}개 </b></p>
 </div>
 <div id="replyList">
-	<ul class="list-group">
+	  <ul class="list-group">
 	  	<c:forEach var="item" items="${list}">
 	  		<li class="list-group-item">
 	  		<c:choose>
@@ -32,9 +32,11 @@
 								</div>
 								<div style="float: right;">
 									<ul class="nav">
+									<!--
 									  <li class="nav-item">
 									    <a class="nav-link" href="#">수정</a>
 									  </li>
+								 	-->
 									  <li class="nav-item">
 									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
@@ -91,9 +93,11 @@
 								</div>
 								<div style="float: right;">
 									<ul class="nav">
+									<!-- 
 									  <li class="nav-item">
 									    <a class="nav-link" href="#">수정</a>
 									  </li>
+									-->
 									  <li class="nav-item">
 									    <a class="nav-link" href="javascript:deleteReply(${item.replyIdx});">삭제</a>
 									  </li>
