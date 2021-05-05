@@ -94,6 +94,13 @@ public class BoardDAOImpl implements BoardDAO {
 	public int selectPageNumSearch(String word) {
 		return sqlSession.selectOne("com.board.mappers.Boardmapper.selectPageNumSearch",word);
 	}
+
+	// 유저가 작성한 모든 게시물들
+	@Override
+	public List<BoardVO> selectBoardByUser(int userIdx) {
+		List<BoardVO> list = sqlSession.selectList("com.board.mappers.Boardmapper.selectBoardByUser",userIdx);
+		return list;
+	}
 	
 	
 

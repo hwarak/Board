@@ -98,5 +98,10 @@
 		<include refid="selectSearchWord"></include>
 	</select>
 	
+	<!-- 유저가 작성한 게시물 리스트 -->
+	<select id="selectBoardByUser" resultType="com.board.vo.BoardVO">
+		<include refid="selectBoardInfo"></include>
+		where board.user_idx=#{userIdx} order by board_date desc
+	</select>
 
 </mapper>

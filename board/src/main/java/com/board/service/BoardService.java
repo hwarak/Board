@@ -38,4 +38,7 @@ public interface BoardService {
 
 	// 검색된 게시물 페이지 개수
 	public int selectPageNumSearch(String word);
+	
+	// 유저가 작성한 모든 게시물들
+	public List<BoardVO> selectBoardByUser(int userIdx);
 }

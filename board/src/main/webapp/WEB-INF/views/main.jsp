@@ -208,7 +208,7 @@ function goLogin(){
 
 	<!-- 표 -->
 	<div class="container" id="resultList">
-		<table class="table">
+		<table class="table table-hover">
 			<thead>
 				<tr>
 					<th style="width: 10%;">no.</th>

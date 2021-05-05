@@ -50,6 +50,12 @@ public class UserDAOImpl implements UserDAO {
 	public UserInfoVO selectUserInfo(int userIdx) {
 		return sqlSession.selectOne("com.board.mappers.UserMapper.selectUserInfo", userIdx);
 	}
+
+	// 회원 탈퇴
+	@Override
+	public void deleteUser(int userIdx) {
+		sqlSession.delete("com.board.mappers.UserMapper.deleteUser",userIdx);
+	}
 	
 	
 	

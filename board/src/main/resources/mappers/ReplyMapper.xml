@@ -3,6 +3,21 @@
 
 <mapper namespace="com.board.mappers.ReplyMapper">
 
+	<sql id="selectReplyInfo">
+		select 
+		reply.reply_idx as replyIdx,
+		reply.reply_contents as replyContents,
+		reply.user_idx as userIdx,
+		reply.board_idx as boardIdx,
+		reply.reply_secret as replySecret,
+		reply.reply_recipient as replyRecipient,
+		reply.reply_date as replyDate,
+		user.user_nickName as userNickname,
+        if(reply.user_idx=#{userIdx},1,0) as compare
+		from reply 
+		left join user on reply.user_idx = user.user_idx
+    </sql>
+
 	<!-- 댓글 등록 -->
 	<insert id="insertReply">
 		insert into reply(reply_contents,user_idx,board_idx,reply_secret,reply_recipient) value(#{replyContents}, #{userIdx}, #{boardIdx}, #{replySecret}, #{replyRecipient}) 
@@ -25,18 +40,7 @@
 	
 	<!-- 댓글 최신순으로 불러오기 -->
 	<select id="selectReply" resultType="com.board.vo.ReplyVO">
-		select 
-		reply.reply_idx as replyIdx,
-		reply.reply_contents as replyContents,
-		reply.user_idx as userIdx,
-		reply.board_idx as boardIdx,
-		reply.reply_secret as replySecret,
-		reply.reply_recipient as replyRecipient,
-		reply.reply_date as replyDate,
-		user.user_nickName as userNickname,
-        if(reply.user_idx=#{userIdx},1,0) as compare
-		from reply 
-		left join user on reply.user_idx = user.user_idx
+		<include refid="selectReplyInfo"></include>
         where board_idx=#{boardIdx}
 		order by reply_date desc
 	</select>
@@ -51,5 +55,11 @@
 		update board set board_reply= board_reply-1 where board_idx=#{boardIdx}
 	</update>
 
-
+	<!-- 유저가 작성한 모든 댓글들을 삭제한다 -->
+	<select id="selectReplyByUser" resultType="com.board.vo.ReplyVO">
+		<include refid="selectReplyInfo" ></include>
+        where reply.user_idx=#{userIdx}
+		order by reply_date desc
+	</select>
+	
 </mapper>

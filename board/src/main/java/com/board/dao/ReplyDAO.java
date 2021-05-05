@@ -26,6 +26,8 @@ public interface ReplyDAO {
 
 	// 댓글수 -1
 	public void updateReplyMinus(int boardIdx);
-
+	
+	// 유저가 작성한 댓글들
+	public List<ReplyVO> selectReplyByUser(int userIdx);
 
 }

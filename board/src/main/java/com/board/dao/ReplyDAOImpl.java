@@ -75,5 +75,12 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 	}
 
+	// 유저가 작성한 댓글들
+	@Override
+	public List<ReplyVO> selectReplyByUser(int userIdx) {
+		List<ReplyVO> list = sqlSession.selectList("com.board.mappers.ReplyMapper.selectReplyByUser", userIdx);
+		return list;
+	}
+
 
 }

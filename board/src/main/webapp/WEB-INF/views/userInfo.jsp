@@ -20,13 +20,48 @@ $(document).ready(function(e){
 	   $('#logout').click(function() {
 		   alert("로그아웃되었습니다");
 	   });
+
+	   $('#myBoard').click(function() {
+		   location.href="myBoard";
+	   });
 	});
 
 function goMainFunc(){
 	location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
 }
 
+function checkDeleteUser(){
+	var str = $("#deleteUser").val();
+	if(str=="탈퇴하기"){
+		$.ajax({
+			type : "delete",
+			url : "user",
+		    contentType:"application/json;charset=UTF-8",
+		    async : true,
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("탈퇴 완료.");
+					location.href="${pageContext.request.contextPath}/";
+				} 
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+	}else{
+		alert("다시 작성해주세요");
+	}
+}
+
+
+
+
 </script>
+<style type="text/css">
+.info:hover {
+  background-color: #e3e3e3;
+}
+</style>
 </head>
 <body class="container" style="width: 30%;">
 	<div class="container" style="height: 80px;"></div>
@@ -62,20 +97,54 @@ function goMainFunc(){
 	<div class="container">
 		<div>
 			<ul class="list-group">
-				<li class="list-group-item">${userInfo.userNickname}님</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item info">${userInfo.userNickname}님</li>
+				<li class="list-group-item info d-flex justify-content-between align-items-center" id="myBoard">
 					내 글 <span class="badge badge-primary badge-pill">${userInfo.myBoard}</span>
 				</li>
-				<li
-					class="list-group-item d-flex justify-content-between align-items-center">
+				<li class="list-group-item info d-flex justify-content-between align-items-center">
 					내 댓글 <span class="badge badge-primary badge-pill">${userInfo.myReview}</span>
 				</li>
-				<li class="list-group-item">정보 수정</li>
-				<li class="list-group-item">탈퇴</li>
+				<li class="list-group-item info">정보 수정</li>
+				<li class="list-group-item info" href="#" data-toggle="modal" data-target="#myModal">탈퇴</li>
 			</ul>
 		</div>
 
 	</div>
+	
+	
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">회원 탈퇴</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+        	<div>
+        		탈퇴하시면 작성한 게시물들과 댓글들이 모두 삭제됩니다<br>
+        		확인을 위해 <b>탈퇴하기</b> 를 입력하세요.
+        	</div>
+        	<div style="height: 20px;"></div>
+          	<div>
+          		<input type="text" class="form-control" id="deleteUser" required>
+          	</div>
+          	<div style="height: 20px;"></div>
+          	<div>
+          	<button type="button" class="btn btn-outline-dark btn-block"
+				onclick="checkDeleteUser();">이해했습니다. 탈퇴하겠습니다.</button>
+          	</div>
+          	
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+  
 </body>
 </html>

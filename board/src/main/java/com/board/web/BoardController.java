@@ -120,6 +120,8 @@ public class BoardController {
 		boardService.updateViews(boardIdx);
 
 		session.setAttribute("writerIdx", userIdx);
+		
+		System.out.println("들어오지..?");
 
 		return "redirect:boardDetail?boardIdx=" + boardIdx;
 	}
@@ -148,5 +150,16 @@ public class BoardController {
 	}
 
 	
+	@GetMapping(value = "/myBoard")
+	public String myboardPage(HttpSession session, Model model) {
+
+		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
+		
+		List<BoardVO> list = boardService.selectBoardByUser(userIdx);
+
+		model.addAttribute("myBoard",list);
+		
+		return "myBoard";
+	}
 
 }

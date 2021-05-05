@@ -80,4 +80,12 @@ public class BoardServiceImpl implements BoardService {
 	public int selectPageNumSearch(String word) {
 		return dao.selectPageNumSearch(word);
 	}
+
+	// 유저가 작성한 모든 게시물들
+	@Override
+	public List<BoardVO> selectBoardByUser(int userIdx) {
+		return dao.selectBoardByUser(userIdx);
+	}
+	
+	
 }

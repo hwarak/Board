@@ -21,5 +21,8 @@ public interface UserService {
 
 	// 유저 정보
 	public UserInfoVO selectUserInfo(int userIdx);
+	
+	// 회원 탈퇴
+	public void deleteUser(int userIdx);
 
 }
