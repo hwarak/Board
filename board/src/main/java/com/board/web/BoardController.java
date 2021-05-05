@@ -120,8 +120,6 @@ public class BoardController {
 		boardService.updateViews(boardIdx);
 
 		session.setAttribute("writerIdx", userIdx);
-		
-		System.out.println("들어오지..?");
 
 		return "redirect:boardDetail?boardIdx=" + boardIdx;
 	}

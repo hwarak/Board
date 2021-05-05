@@ -103,5 +103,17 @@ public class ReplyController {
 
 		return "replyListAjax";
 	}
+	
+	@GetMapping(value = "/myReply")
+	public String myReplyPage(HttpSession session, Model model) {
+
+		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
+		
+		List<ReplyVO> list = replyService.selectReplyByUser(userIdx);
+
+		model.addAttribute("myReply",list);
+		
+		return "myReply";
+	}
 
 }

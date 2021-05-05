@@ -24,6 +24,10 @@ $(document).ready(function(e){
 	   $('#myBoard').click(function() {
 		   location.href="myBoard";
 	   });
+
+	   $('#myReply').click(function() {
+		   location.href="myReply";
+	   });
 	});
 
 function goMainFunc(){
@@ -57,11 +61,6 @@ function checkDeleteUser(){
 
 
 </script>
-<style type="text/css">
-.info:hover {
-  background-color: #e3e3e3;
-}
-</style>
 </head>
 <body class="container" style="width: 30%;">
 	<div class="container" style="height: 80px;"></div>
@@ -97,15 +96,15 @@ function checkDeleteUser(){
 	<div class="container">
 		<div>
 			<ul class="list-group">
-				<li class="list-group-item info">${userInfo.userNickname}님</li>
-				<li class="list-group-item info d-flex justify-content-between align-items-center" id="myBoard">
+				<li class="list-group-item list-group-item-action">${userInfo.userNickname}님</li>
+				<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="myBoard">
 					내 글 <span class="badge badge-primary badge-pill">${userInfo.myBoard}</span>
 				</li>
-				<li class="list-group-item info d-flex justify-content-between align-items-center">
+				<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="myReply">
 					내 댓글 <span class="badge badge-primary badge-pill">${userInfo.myReview}</span>
 				</li>
-				<li class="list-group-item info">정보 수정</li>
-				<li class="list-group-item info" href="#" data-toggle="modal" data-target="#myModal">탈퇴</li>
+				<li class="list-group-item list-group-item-action">정보 수정</li>
+				<li class="list-group-item list-group-item-action" href="#" data-toggle="modal" data-target="#myModal">탈퇴</li>
 			</ul>
 		</div>
 

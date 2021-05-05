@@ -31,7 +31,7 @@ function goMainFunc(){
 </script>
 
 </head>
-<body>
+<body class="container" style="width: 50%;">
 
 <div class="container" >
 
@@ -65,24 +65,23 @@ function goMainFunc(){
 	<div class="container" style="height: 40px;"></div>
   
   	<div class="container">
-		<table class="table table-hover">
-			<thead>
+  	
+  	
+  		<table class="table table-hover">
+  			<thead>
 				<tr>
-					<th style="width: 10%;">no.</th>
-					<th style="width: 60%;">제목</th>
-					<th style="width: 10%;">닉네임</th>
-					<th style="width: 10%;">조회수</th>
-					<th style="width: 10%;">댓글수</th>
+					<th>댓글 내용</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="item" items="${myBoard}">
+				<c:forEach var="item" items="${myReply}">
 				  	<tr onclick="location.href='${pageContext.request.contextPath}/board?boardIdx=${item.boardIdx}&userIdx=${item.userIdx}'" style="cursor:pointer;">
-						<td>${item.boardIdx}</td>
-						<td>[${item.boardSubject}] ${item.boardTitle}</td>
-						<td>${item.userNickname}</td>
-						<td>${item.boardViews}</td>
-						<td>${item.boardReply}</td>
+						<c:if test="${item.replySecret eq 1}">
+						<td>(비밀글) ${item.replyContents }</td>
+						</c:if>
+						<c:if test="${item.replySecret eq 0}">
+						<td>${item.replyContents }</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</tbody>

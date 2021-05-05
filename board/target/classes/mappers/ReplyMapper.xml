@@ -55,7 +55,7 @@
 		update board set board_reply= board_reply-1 where board_idx=#{boardIdx}
 	</update>
 
-	<!-- 유저가 작성한 모든 댓글들을 삭제한다 -->
+	<!-- 유저가 작성한 모든 댓글들 -->
 	<select id="selectReplyByUser" resultType="com.board.vo.ReplyVO">
 		<include refid="selectReplyInfo" ></include>
         where reply.user_idx=#{userIdx}

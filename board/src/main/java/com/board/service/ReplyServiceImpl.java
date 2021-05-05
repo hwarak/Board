@@ -55,4 +55,10 @@ public class ReplyServiceImpl implements ReplyService {
 		dao.updateReplyMinus(boardIdx);
 
 	}
+	
+	// 유저가 작성한 댓글들
+	@Override
+	public List<ReplyVO> selectReplyByUser(int userIdx) {
+		return dao.selectReplyByUser(userIdx);
+	}
 }
