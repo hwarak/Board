@@ -13,9 +13,12 @@
 		reply.reply_recipient as replyRecipient,
 		reply.reply_date as replyDate,
 		user.user_nickName as userNickname,
+		board.board_title as boardTitle,
+		board.board_subject as boardSubject,
         if(reply.user_idx=#{userIdx},1,0) as compare
 		from reply 
 		left join user on reply.user_idx = user.user_idx
+		left join board on reply.board_idx = board.board_idx
     </sql>
 
 	<!-- 댓글 등록 -->
@@ -41,7 +44,7 @@
 	<!-- 댓글 최신순으로 불러오기 -->
 	<select id="selectReply" resultType="com.board.vo.ReplyVO">
 		<include refid="selectReplyInfo"></include>
-        where board_idx=#{boardIdx}
+        where reply.board_idx=#{boardIdx}
 		order by reply_date desc
 	</select>
 	

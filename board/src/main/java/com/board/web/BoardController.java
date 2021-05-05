@@ -120,7 +120,7 @@ public class BoardController {
 		boardService.updateViews(boardIdx);
 
 		session.setAttribute("writerIdx", userIdx);
-
+		
 		return "redirect:boardDetail?boardIdx=" + boardIdx;
 	}
 

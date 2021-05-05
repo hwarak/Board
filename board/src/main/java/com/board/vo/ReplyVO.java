@@ -9,6 +9,8 @@ public class ReplyVO {
 	private String replyContents;
 	private int userIdx;
 	private int boardIdx;
+	private String boardSubject;
+	private String boardTitle;
 	private int replySecret;
 	private int replyRecipient;
 	private String replyDate;

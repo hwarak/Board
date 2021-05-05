@@ -77,11 +77,18 @@ function goMainFunc(){
 				<c:forEach var="item" items="${myReply}">
 				  	<tr onclick="location.href='${pageContext.request.contextPath}/board?boardIdx=${item.boardIdx}&userIdx=${item.userIdx}'" style="cursor:pointer;">
 						<c:if test="${item.replySecret eq 1}">
-						<td>(비밀글) ${item.replyContents }</td>
+							<td>
+								(비밀글) ${item.replyContents }<br>
+								<a style="font-size: 13px;"><b>[${item.boardSubject}] ${item.boardTitle }</b></a>
+						  	</td>
 						</c:if>
 						<c:if test="${item.replySecret eq 0}">
-						<td>${item.replyContents }</td>
+							<td>
+								${item.replyContents }<br>
+								<a style="font-size: 13px;"><b>[${item.boardSubject}] ${item.boardTitle }</b></a>
+						  	</td>
 						</c:if>
+							
 					</tr>
 				</c:forEach>
 			</tbody>
