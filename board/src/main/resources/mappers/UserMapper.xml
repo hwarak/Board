@@ -38,4 +38,9 @@
 		delete from user where user_idx=#{userIdx}
 	</delete>
 	
+	<!-- 닉네임 수정 -->
+	<update id="updateNickname">
+		update user set user_nickname= #{userNickname} where user_idx=#{userIdx} 
+	</update>
+	
 </mapper>

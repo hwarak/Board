@@ -73,4 +73,13 @@ public class UserServiceImpl implements UserService {
 		udao.deleteUser(userIdx);
 	}
 
+	// 닉네임 변경
+	@Override
+	public void updateNickname(String userNickname, int userIdx) {
+		udao.updateNickname(userNickname, userIdx);
+		
+	}
+	
+	
+
 }

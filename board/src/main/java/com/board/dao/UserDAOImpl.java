@@ -56,6 +56,16 @@ public class UserDAOImpl implements UserDAO {
 	public void deleteUser(int userIdx) {
 		sqlSession.delete("com.board.mappers.UserMapper.deleteUser",userIdx);
 	}
+
+	// 닉네임 변경
+	@Override
+	public void updateNickname(String userNickname, int userIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userNickname", userNickname);
+		map.put("userIdx", userIdx);
+		sqlSession.update("com.board.mappers.UserMapper.updateNickname",map);
+		
+	}
 	
 	
 	

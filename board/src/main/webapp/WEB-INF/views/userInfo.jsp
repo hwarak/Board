@@ -57,6 +57,32 @@ function checkDeleteUser(){
 	}
 }
 
+function checkUpdateUser(){
+
+	var data = {};
+	data["userNickname"] = $("#updateUser").val();
+	$.ajax({
+		type : "put",
+		url : "user",
+		data : JSON.stringify(data),
+	    dataType: "json",
+	    contentType:"application/json;charset=UTF-8",
+	    async : true,
+		success : function(data) {
+			if (data.result == "ok") {
+				alert("닉네임 변경 성공");
+				location.href="userInfo";
+			} else {
+				alert("이미 존재하는 닉네임");
+				$("#updateUser").empty();
+			}
+		},
+		error : function(){
+            alert("통신실패");
+        }
+	});
+}
+
 
 
 
@@ -103,16 +129,50 @@ function checkDeleteUser(){
 				<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" id="myReply">
 					내 댓글 <span class="badge badge-primary badge-pill">${userInfo.myReview}</span>
 				</li>
-				<li class="list-group-item list-group-item-action">정보 수정</li>
-				<li class="list-group-item list-group-item-action" href="#" data-toggle="modal" data-target="#myModal">탈퇴</li>
+				<li class="list-group-item list-group-item-action" href="#" data-toggle="modal" data-target="#updateUserModal">정보 수정</li>
+				<li class="list-group-item list-group-item-action" href="#" data-toggle="modal" data-target="#deleteUserModal">탈퇴</li>
 			</ul>
 		</div>
 
 	</div>
+
+  <!-- updateUser Modal -->
+  <div class="modal fade" id="updateUserModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">닉네임 변경</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+        	<div>
+        		변경하실 닉네임을 입력하세요
+        	</div>
+        	<div style="height: 20px;"></div>
+          	<div>
+          		<input type="text" class="form-control" id="updateUser" required>
+          	</div>
+          	<div style="height: 20px;"></div>
+          	<div>
+          	<button type="button" class="btn btn-outline-dark btn-block"
+				onclick="checkUpdateUser();">닉네임 변경</button>
+          	</div>
+          	
+        </div>
+
+        
+      </div>
+    </div>
+  </div>	
 	
 	
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal">
+	
+  <!-- deleteUser Modal -->
+  <div class="modal fade" id="deleteUserModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       

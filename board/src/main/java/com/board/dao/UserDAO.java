@@ -21,5 +21,8 @@ public interface UserDAO {
 	
 	// 회원 탈퇴
 	public void deleteUser(int userIdx);
+	
+	// 닉네임 변경
+	public void updateNickname(String userNickname, int userIdx);
 
 }
