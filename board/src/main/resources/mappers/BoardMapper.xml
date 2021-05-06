@@ -8,6 +8,7 @@
 		insert into board(user_idx,board_subject,board_title,board_contents) value(#{userIdx},#{boardSubject},#{boardTitle},#{boardContents})
 	</insert>
 	
+	<!-- 게시물 정보 sql -->
 	<sql id="selectBoardInfo">
 		select
 		board.board_idx as boardIdx,
@@ -23,36 +24,34 @@
 		left join user on board.user_idx = user.user_idx
     </sql>
     
+    <!-- 게시물 단어 검색 sql -->
     <sql id="selectSearchWord">
     	where board_title like #{word}
     </sql>
     
+    <!-- 인기순 정렬 sql -->
     <sql id="selectPopularity">
     	order by board_views desc limit #{startNum},10
     </sql>
     
+    <!-- 최신순 정렬 sql -->
     <sql id="selectDateDesc">
     	order by board_date desc limit #{startNum},10
     </sql>
-    
-    <sql id="selectPageNum">
-    	select if((count(*)%10)=0,(count(*)/10),(count(*)/10)+1) as result from board
-    </sql>
-
 	
-	<!-- 게시물 리스트 가져오기 -->
+	<!-- 게시물 최신순으로 가져오기 -->
 	<select id="selectAllBoard" resultType="com.board.vo.BoardVO">
  	 	<include refid="selectBoardInfo"></include>
 		<include refid="selectDateDesc"></include>
 	</select>
 	
-	<!-- 인기순 -->
+	<!-- 게시물 인기순으로 가져오기 -->
 	<select id="selectAllBoardPopularity" resultType="com.board.vo.BoardVO">
  	 	<include refid="selectBoardInfo"></include>
 		<include refid="selectPopularity"></include>
 	</select>
 	
-	<!-- 게시물 정보 가져오기 -->
+	<!-- 게시물 내용 가져오기 -->
 	<select id="selectOneInfo" resultType="com.board.vo.BoardVO">
 		<include refid="selectBoardInfo"></include> 
 		where board_idx = #{boardIdx}
@@ -65,13 +64,6 @@
 		<include refid="selectDateDesc"></include>
 	</select>
 
-	<!-- 검색 + 인기순 -->
-	<select id="selectSearchPopularity" resultType="com.board.vo.BoardVO">
-		<include refid="selectBoardInfo"></include>
-		<include refid="selectSearchWord"></include>
-		<include refid="selectPopularity"></include>
-	</select>
-	
 	<!-- 조회수 +1 -->
 	<update id="updateViews">
 		update board set board_views= board_views+1 where board_idx=#{boardIdx}
@@ -89,15 +81,9 @@
 	
 	<!-- 게시물 개수 가져오기 -->
 	<select id="selectPageNumAll" resultType="Integer">
-		<include refid="selectPageNum"></include>
+		select if((count(*)%10)=0,(count(*)/10),(count(*)/10)+1) as result from board
 	</select>
-	
-	<!-- 검색된 게시물 개수 가져오기 -->
-	<select id="selectPageNumSearch" resultType="Integer">
-		<include refid="selectPageNum"></include>
-		<include refid="selectSearchWord"></include>
-	</select>
-	
+
 	<!-- 유저가 작성한 게시물 리스트 -->
 	<select id="selectBoardByUser" resultType="com.board.vo.BoardVO">
 		<include refid="selectBoardInfo"></include>

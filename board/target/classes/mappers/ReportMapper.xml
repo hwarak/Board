@@ -3,12 +3,33 @@
 
 <mapper namespace="com.board.mappers.ReportMapper">
 
-	<insert id="inserReport">
-		insert into report(user_idx,board_idx,report_subject,report_title,report_contents) value(#{userIdx},#{boardIdx},#{reportSubject},#{reportTitle},#{reportContents})
+	<!-- 신고 등록 -->
+	<insert id="insertReport">
+		insert into
+		report(report_subject,report_title,report_contents,user_idx,board_idx)
+		value(#{reportSubject},#{reportTitle},#{reportContents},#{userIdx},#{boardIdx})
 	</insert>
 	
+	<!-- 신고 목록 삭제 -->
 	<delete id="deleteReport">
-		delete from report where report_idx = #{reportIdx}
+		delete from report where board_idx=#{boardIdx}
 	</delete>
-
+	
+	<!-- 종류별 신고 리스트 -->
+	<select id="selectReport" resultType="com.board.vo.ReportVO">
+		select
+		report.report_idx as reportIdx,
+		report.report_title as reportTitle,
+		report.report_contents as reportContents,
+		report.board_idx as boardIdx,
+		user.user_nickname as userNickname,
+		board.board_subject as boardSubject,
+		board.board_title as boardTitle
+		from report 
+		left join user on report.user_idx = user.user_idx
+		left join board on report.board_idx = board.board_idx
+		where report.report_subject=#{reportSubject}
+	</select>
 </mapper>
+
+	

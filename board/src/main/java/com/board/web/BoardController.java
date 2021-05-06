@@ -147,7 +147,7 @@ public class BoardController {
 		return "boardDetail";
 	}
 
-	
+	// 내가 작성한 게시물 가져오기
 	@GetMapping(value = "/myBoard")
 	public String myboardPage(HttpSession session, Model model) {
 

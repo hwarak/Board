@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.board.service.BoardService;
 import com.board.service.JsonEcDcService;
+import com.board.service.ReportService;
 import com.board.vo.BoardVO;
+import com.board.vo.ReportVO;
 
 @Controller
 public class HomeController {
@@ -100,22 +102,20 @@ public class HomeController {
 
 	// 게시물 검색하기
 	@GetMapping("/search")
-	public String getSearch(@RequestParam String word, Model model,
-			@RequestParam(required = false) String pageNum) {
-		
+	public String getSearch(@RequestParam String word, Model model, @RequestParam(required = false) String pageNum) {
+
 		int allPage = boardService.selectPageNumSearch(word);
 		int startNum = 0;
-		
+
 		if (pageNum != null) {
 			startNum = Integer.parseInt(pageNum) * 10 - 10;
 		}
 
 		List<BoardVO> list = boardService.selectSearch(word, startNum);
-		
+
 		model.addAttribute("allPage", allPage);
 		model.addAttribute("list", list);
 
 		return "main";
 	}
-
 }

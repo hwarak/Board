@@ -1,11 +1,20 @@
 package com.board.service;
 
-public interface ReportService {
-	
-	// 신고 등록하기
-	public void inserReport(int userIdx, int boardIdx, String reportSubject, String reportTitle,String reportContent);
-	
-	// 신고 삭제하기
-	public void deleteReport(int reportIdx);
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.board.vo.ReportVO;
+
+@Service
+public interface ReportService {
+
+	// 신고 등록
+	public void insertReport(String reportSubject, String reportTitle, String reportContents, int userIdx, int boardIdx);
+	
+	// 신고 목록 삭제
+	public void deleteReport(int boardIdx);
+	
+	// 종류별 신고 리스트
+	public List<ReportVO> selectReport(String reportSubject);
 }

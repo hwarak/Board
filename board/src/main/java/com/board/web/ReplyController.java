@@ -35,6 +35,7 @@ public class ReplyController {
 	@Autowired
 	private JsonEcDcService jsonService;
 
+	// 댓글 등록하기
 	@ResponseBody
 	@PostMapping("/reply")
 	public Map insertReply(@RequestBody String str) {
@@ -59,6 +60,7 @@ public class ReplyController {
 		return map;
 	}
 
+	// 댓글 삭제하기
 	@ResponseBody
 	@DeleteMapping("/reply")
 	public Map deleteReply(@RequestBody String str) {
@@ -104,6 +106,7 @@ public class ReplyController {
 		return "replyListAjax";
 	}
 	
+	// 내가 쓴 댓글 가져오기
 	@GetMapping(value = "/myReply")
 	public String myReplyPage(HttpSession session, Model model) {
 

@@ -3,15 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bootstrap Example</title>
+  <title>회원가입</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
+
+	// 아이디 중복 체크
 	function idCheckFunc() {
 
 		var data = {};
@@ -33,8 +34,8 @@
 		});
 	}
 
+	// 닉네임 중복 체크
 	function nickCheckFunc() {
-
 
 		var data = {};
 		data["userNickname"] = $("#nickname").val();
@@ -55,6 +56,7 @@
 		});
 	}
 
+	// 중복 결과
 	function userCheckMessage(data) {
 		if (data == 0) {
 			alert("가입 가능.");
@@ -85,6 +87,7 @@
 <div class="container">
   <form action="signUp" method="post">
   
+  	<!-- 아이디, 중복검사 버튼 -->
     <div class="form-group">
 	    <div class="row">
 		  <div class="col-sm-2">
@@ -99,6 +102,7 @@
 		</div>
     </div>
     
+    <!-- 닉네임, 닉네임 중복검사 -->
     <div class="form-group">
 	 	<div class="row">
 		  <div class="col-sm-2">
@@ -113,6 +117,7 @@
 		</div>
     </div>
     
+    <!-- 비밀번호 -->
     <div class="form-group">
 	 	<div class="row">
 		  <div class="col-sm-2">

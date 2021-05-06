@@ -26,21 +26,25 @@ public class SignController {
 	@Autowired
 	private JsonEcDcService jsonService;
 
+	// 로그인 페이지
 	@GetMapping(value = "/signIn")
 	public String signInPage() {
 
 		return "signIn";
 	}
 
+	// 회원가입 페이지
 	@GetMapping(value = "/signUp")
 	public String signUpPage() {
 
 		return "signUp";
 	}
 
+	// 로그인 아이디,비밀번호 체크
 	@ResponseBody
 	@PostMapping(value = "/signIn/checkIdPw")
 	public Map signIn(@RequestBody String str, HttpSession session) {
+
 
 		session.setAttribute("sort", 1);
 
@@ -59,12 +63,16 @@ public class SignController {
 		return map;
 	}
 
+	// 회원가입
 	@PostMapping(value = "/signUp")
 	public String signUp(UserVO uvo) {
+		
 		userService.insertUser(uvo.getUserId(), uvo.getUserPw(), uvo.getUserNickname());
+		
 		return "signIn";
 	}
 
+	// 회원가입시 아이디 중복체크
 	@ResponseBody
 	@PostMapping("/signUp/idCheck")
 	public Map checkId(@RequestBody String str) {
@@ -82,6 +90,7 @@ public class SignController {
 		return map;
 	}
 
+	// 회원가입시 닉네임 체크
 	@ResponseBody
 	@PostMapping("/signUp/nickCheck")
 	public Map checkNickname(@RequestBody String str) {

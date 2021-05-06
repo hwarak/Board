@@ -38,6 +38,7 @@ public class UserController {
 		return "userInfo";
 	}
 
+	// 회원 탈퇴
 	@ResponseBody
 	@DeleteMapping("/user")
 	public Map deleteUser(HttpSession session) {
@@ -51,6 +52,7 @@ public class UserController {
 		return map;
 	}
 
+	// 정보 업데이트
 	@ResponseBody
 	@PutMapping("/user")
 	public Map updateUser(HttpSession session, @RequestBody String str) {

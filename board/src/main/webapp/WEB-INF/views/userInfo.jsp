@@ -3,88 +3,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Insert title here</title>
+<title>내 정보</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5	.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5	.2/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 
-$(document).ready(function(e){
-	   $('#logout').click(function() {
-		   alert("로그아웃되었습니다");
-	   });
+	//홈으로 돌아가기
+	function goMainFunc(){
+		location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
+	}
 
-	   $('#myBoard').click(function() {
-		   location.href="myBoard";
-	   });
-
-	   $('#myReply').click(function() {
-		   location.href="myReply";
-	   });
+	$(document).ready(function(e){
+		
+		// 로그아웃
+		$('#logout').click(function() {
+		 alert("로그아웃되었습니다");
+		});
+		
+		// 내 게시물
+		$('#myBoard').click(function() {
+		 location.href="myBoard";
+		});
+		
+		// 내 댓글
+		$('#myReply').click(function() {
+		 location.href="myReply";
+		});
+		
 	});
 
-function goMainFunc(){
-	location.href="main?userIdx="+<%=session.getAttribute("userIdx")%>;
-}
+	// 회원 탈퇴
+	function checkDeleteUser(){
+		var str = $("#deleteUser").val();
+		if(str=="탈퇴하기"){
+			$.ajax({
+				type : "delete",
+				url : "user",
+			    contentType:"application/json;charset=UTF-8",
+			    async : true,
+				success : function(data) {
+					if (data.result == "ok") {
+						alert("탈퇴 완료.");
+						location.href="${pageContext.request.contextPath}/";
+					} 
+				},
+				error : function(){
+	                alert("통신실패");
+	            }
+			});
+		}else{
+			alert("다시 작성해주세요");
+		}
+	}
 
-function checkDeleteUser(){
-	var str = $("#deleteUser").val();
-	if(str=="탈퇴하기"){
+	// 유저 닉네임 변경
+	function checkUpdateUser(){
+	
+		var data = {};
+		data["userNickname"] = $("#updateUser").val();
 		$.ajax({
-			type : "delete",
+			type : "put",
 			url : "user",
+			data : JSON.stringify(data),
+		    dataType: "json",
 		    contentType:"application/json;charset=UTF-8",
 		    async : true,
 			success : function(data) {
 				if (data.result == "ok") {
-					alert("탈퇴 완료.");
-					location.href="${pageContext.request.contextPath}/";
-				} 
+					alert("닉네임 변경 성공");
+					location.href="userInfo";
+				} else {
+					alert("이미 존재하는 닉네임");
+					$("#updateUser").empty();
+				}
 			},
 			error : function(){
-                alert("통신실패");
-            }
+	            alert("통신실패");
+	        }
 		});
-	}else{
-		alert("다시 작성해주세요");
 	}
-}
-
-function checkUpdateUser(){
-
-	var data = {};
-	data["userNickname"] = $("#updateUser").val();
-	$.ajax({
-		type : "put",
-		url : "user",
-		data : JSON.stringify(data),
-	    dataType: "json",
-	    contentType:"application/json;charset=UTF-8",
-	    async : true,
-		success : function(data) {
-			if (data.result == "ok") {
-				alert("닉네임 변경 성공");
-				location.href="userInfo";
-			} else {
-				alert("이미 존재하는 닉네임");
-				$("#updateUser").empty();
-			}
-		},
-		error : function(){
-            alert("통신실패");
-        }
-	});
-}
-
-
-
 
 </script>
 </head>
@@ -136,7 +137,7 @@ function checkUpdateUser(){
 
 	</div>
 
-  <!-- updateUser Modal -->
+  <!-- 유저 닉네임 변경 모달 -->
   <div class="modal fade" id="updateUserModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -160,18 +161,13 @@ function checkUpdateUser(){
           	<div>
           	<button type="button" class="btn btn-outline-dark btn-block"
 				onclick="checkUpdateUser();">닉네임 변경</button>
-          	</div>
-          	
+          	</div>    	
         </div>
-
-        
       </div>
     </div>
   </div>	
-	
-	
-	
-  <!-- deleteUser Modal -->
+
+  <!-- 회원탈퇴 모달 -->
   <div class="modal fade" id="deleteUserModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -196,11 +192,8 @@ function checkUpdateUser(){
           	<div>
           	<button type="button" class="btn btn-outline-dark btn-block"
 				onclick="checkDeleteUser();">이해했습니다. 탈퇴하겠습니다.</button>
-          	</div>
-          	
+          	</div>       	
         </div>
-
-        
       </div>
     </div>
   </div>

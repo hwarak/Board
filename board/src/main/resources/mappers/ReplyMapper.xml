@@ -3,6 +3,7 @@
 
 <mapper namespace="com.board.mappers.ReplyMapper">
 
+	<!-- 댓글 정보 sql -->
 	<sql id="selectReplyInfo">
 		select 
 		reply.reply_idx as replyIdx,

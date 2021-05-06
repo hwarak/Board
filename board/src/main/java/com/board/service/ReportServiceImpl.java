@@ -1,25 +1,37 @@
 package com.board.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.board.dao.ReportDAO;
+import com.board.vo.ReportVO;
 
-public class ReportServiceImpl implements ReportService{
+@Service
+public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private ReportDAO dao;
-	
-	// 신고 등록하기
+
+	// 댓글 등록
 	@Override
-	public void inserReport(int userIdx, int boardIdx, String reportSubject, String reportTitle, String reportContent) {
-		dao.inserReport(userIdx, boardIdx, reportSubject, reportTitle, reportContent);
-		
+	public void insertReport(String reportSubject, String reportTitle, String reportContents, int userIdx,
+			int boardIdx) {
+		dao.insertReport(reportSubject, reportTitle, reportContents, userIdx, boardIdx);
+
 	}
 
-	// 신고 삭제하기
+	// 신고 목록 삭제
 	@Override
-	public void deleteReport(int reportIdx) {
-		dao.deleteReport(reportIdx);
-		
+	public void deleteReport(int boardIdx) {
+		dao.deleteReport(boardIdx);
 	}
+
+	// 종류별 신고 리스트
+	@Override
+	public List<ReportVO> selectReport(String reportSubject) {
+		return dao.selectReport(reportSubject);
+	}
+
 }
