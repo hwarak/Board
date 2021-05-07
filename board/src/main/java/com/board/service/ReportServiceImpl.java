@@ -22,12 +22,6 @@ public class ReportServiceImpl implements ReportService {
 
 	}
 
-	// 신고 목록 삭제
-	@Override
-	public void deleteReport(int boardIdx) {
-		dao.deleteReport(boardIdx);
-	}
-
 	// 종류별 신고 리스트
 	@Override
 	public List<ReportVO> selectReport(String reportSubject) {
