@@ -211,8 +211,8 @@
 			<thead>
 				<tr>
 					<th style="width: 10%;">no.</th>
-					<th style="width: 60%;">제목</th>
-					<th style="width: 10%;">닉네임</th>
+					<th style="width: 55%;">제목</th>
+					<th style="width: 15%;">닉네임</th>
 					<th style="width: 10%;">조회수</th>
 					<th style="width: 10%;">댓글수</th>
 				</tr>

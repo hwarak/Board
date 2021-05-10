@@ -68,6 +68,34 @@
 			$("#nickname").empty();
 		}
 	}
+
+	// 회원 가입
+	function signUp() {
+
+		var data = {};
+		data["userId"] = $("#id").val();
+		data["userNickname"] = $("#nickname").val();
+		data["userPw"] = $("#password").val();
+
+		$.ajax({
+			type : "post",
+			url : "signUp",
+			data : JSON.stringify(data),
+		    dataType: "json",
+		    contentType:"application/json;charset=UTF-8",
+		    async : true,
+			success : function(data) {
+				if (data.result == "ok") {
+					alert("회원가입 완료.");
+					location.href="signIn";
+				}
+			},
+			error : function(){
+                alert("통신실패");
+            }
+		});
+	}
+	
 </script>
 
 </head>
@@ -129,7 +157,7 @@
 		</div>
     </div>
      
-    <button type="submit" class="btn btn-dark btn-block"style="margin-top: 50px;">회원가입</button>
+    <button type="button" class="btn btn-dark btn-block"style="margin-top: 50px;" onclick="signUp()">회원가입</button>
   </form>
 </div>
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.board.service.JsonEcDcService;
 import com.board.service.UserService;
-import com.board.vo.UserVO;
 
 @Controller
 public class SignController {
@@ -45,7 +44,6 @@ public class SignController {
 	@PostMapping(value = "/signIn/checkIdPw")
 	public Map signIn(@RequestBody String str, HttpSession session) {
 
-
 		session.setAttribute("sort", 1);
 
 		// json 파싱 후 반환
@@ -61,15 +59,6 @@ public class SignController {
 		map.put("result", result);
 
 		return map;
-	}
-
-	// 회원가입
-	@PostMapping(value = "/signUp")
-	public String signUp(UserVO uvo) {
-		
-		userService.insertUser(uvo.getUserId(), uvo.getUserPw(), uvo.getUserNickname());
-		
-		return "signIn";
 	}
 
 	// 회원가입시 아이디 중복체크
@@ -106,6 +95,23 @@ public class SignController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
+		return map;
+	}
+
+	// 회원가입
+	@ResponseBody
+	@PostMapping(value = "/signUp")
+	public Map signUp(@RequestBody String str) {
+
+		JSONObject obj = jsonService.jsonDc(str);
+		String userId = (String) obj.get("userId");
+		String userNickname = (String) obj.get("userNickname");
+		String userPw = (String) obj.get("userPw");
+
+		userService.insertUser(userId, userPw, userNickname);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", "ok");
 		return map;
 	}
 

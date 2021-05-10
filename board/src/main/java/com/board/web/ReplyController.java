@@ -82,7 +82,7 @@ public class ReplyController {
 		return map;
 	}
 
-	// 게시판 정렬
+	// 댓글 리스트
 	@GetMapping("/reply")
 	public String mainSort(HttpSession session, Model model, @RequestParam int boardIdx, @RequestParam int writer) {
 

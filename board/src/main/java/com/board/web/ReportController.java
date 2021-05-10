@@ -31,7 +31,7 @@ public class ReportController {
 	@Autowired
 	private JsonEcDcService jsonService;
 
-	// 댓글 등록하기
+	// 신고 접수하기
 	@ResponseBody
 	@PostMapping("/report")
 	public Map insertReport(@RequestBody String str) {

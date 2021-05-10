@@ -30,7 +30,7 @@ public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
-	
+
 	@Autowired
 	private ReplyService replyService;
 
@@ -116,11 +116,11 @@ public class BoardController {
 	// 게시물 내용 가져오기
 	@GetMapping("/board")
 	public String getBoardInfoPre(@RequestParam int boardIdx, @RequestParam int userIdx, HttpSession session) {
-		
+
 		boardService.updateViews(boardIdx);
 
 		session.setAttribute("writerIdx", userIdx);
-		
+
 		return "redirect:boardDetail?boardIdx=" + boardIdx;
 	}
 
@@ -129,21 +129,21 @@ public class BoardController {
 	public String getBoardInfo(Model model, @RequestParam int boardIdx, HttpSession session) {
 
 		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
-		
+
 		// 게시물 정보
 		BoardVO bvo = boardService.selectOneInfo(boardIdx);
 		model.addAttribute("boardInfo", bvo);
-		
+
 		// 댓글 리스트
-		List<ReplyVO> list = replyService.selectReply(boardIdx,userIdx);
+		List<ReplyVO> list = replyService.selectReply(boardIdx, userIdx);
 		model.addAttribute("list", list);
-		
-		if(bvo.getUserIdx() == userIdx){
+
+		if (bvo.getUserIdx() == userIdx) {
 			model.addAttribute("compare", 1);
-		}else {
+		} else {
 			model.addAttribute("compare", 0);
 		}
-		
+
 		return "boardDetail";
 	}
 
@@ -152,11 +152,11 @@ public class BoardController {
 	public String myboardPage(HttpSession session, Model model) {
 
 		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
-		
+
 		List<BoardVO> list = boardService.selectBoardByUser(userIdx);
 
-		model.addAttribute("myBoard",list);
-		
+		model.addAttribute("myBoard", list);
+
 		return "myBoard";
 	}
 

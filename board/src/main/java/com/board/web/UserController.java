@@ -24,10 +24,12 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private JsonEcDcService jsonService;
 
+
+	// 마이페이지
 	@GetMapping(value = "/userInfo")
 	public String userInfoPage(HttpSession session, Model model) {
 
@@ -41,9 +43,12 @@ public class UserController {
 	// 회원 탈퇴
 	@ResponseBody
 	@DeleteMapping("/user")
-	public Map deleteUser(HttpSession session) {
+	public Map deleteUser(@RequestBody String str) {
 
-		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
+		// json 파싱 후 반환
+		JSONObject obj = jsonService.jsonDc(str);
+		int userIdx = (int) (long) obj.get("userIdx");
+
 		userService.deleteUser(userIdx);
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -61,21 +66,18 @@ public class UserController {
 		JSONObject obj = jsonService.jsonDc(str);
 		String userNickname = (String) obj.get("userNickname");
 		int userIdx = Integer.parseInt(session.getAttribute("userIdx").toString());
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		int result = userService.nickCheck(userNickname);
-		
-		
+
 		if (result == 1) {
 			map.put("result", "no");
-		}else {
+		} else {
 			map.put("result", "ok");
 			userService.updateNickname(userNickname, userIdx);
 		}
-
-		map.put("result", "ok");
-
+		
 		return map;
 	}
 }

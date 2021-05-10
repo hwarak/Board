@@ -40,6 +40,8 @@
 	function checkDeleteUser(){
 		var str = $("#deleteUser").val();
 		if(str=="탈퇴하기"){
+			var data = {};
+			data["userIdx"] = <%=session.getAttribute("userIdx")%>;
 			$.ajax({
 				type : "delete",
 				url : "user",
@@ -62,6 +64,8 @@
 
 	// 유저 닉네임 변경
 	function checkUpdateUser(){
+
+		alert("들어와??");
 	
 		var data = {};
 		data["userNickname"] = $("#updateUser").val();
