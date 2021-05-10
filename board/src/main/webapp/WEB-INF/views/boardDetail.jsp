@@ -294,7 +294,7 @@
 		<div class="form-group">
 			<textarea class="form-control" rows="2" id="reply" name="reply"></textarea>
 		</div>
-		<button type="button" class="btn btn-dark btn-block" onclick="insertReplyFunc();">리뷰 등록</button>
+		<button type="button" class="btn btn-dark btn-block" onclick="insertReplyFunc();">댓글 등록</button>
 	</div>
 	
 	<!-- 댓글 리스트 -->

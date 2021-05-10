@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
 		List<ReplyVO> rlist =  rdao.selectReplyByUser(userIdx);
 		for(ReplyVO tmp : rlist) {
 			rdao.deleteReply(tmp.getReplyIdx()); // 유저가 작성한 댓글들 삭제
+			rdao.updateReplyMinus(tmp.getBoardIdx());// 게시물 댓글 카운트 업데이트
 		}
 		// 회원 삭제
 		udao.deleteUser(userIdx);

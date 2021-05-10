@@ -45,6 +45,8 @@
 			$.ajax({
 				type : "delete",
 				url : "user",
+				data : JSON.stringify(data),
+			    dataType: "json",
 			    contentType:"application/json;charset=UTF-8",
 			    async : true,
 				success : function(data) {
