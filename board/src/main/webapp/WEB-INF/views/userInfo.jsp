@@ -64,8 +64,6 @@
 
 	// 유저 닉네임 변경
 	function checkUpdateUser(){
-
-		alert("들어와??");
 	
 		var data = {};
 		data["userNickname"] = $("#updateUser").val();
